@@ -1,0 +1,36 @@
+{
+  "name": "omni",
+  "env": {
+    "dev": {
+      "account": "070483837758",
+      "region": "us-west-2"
+    },
+    "prod": {
+      "account": "",
+      "region": "us-west-2"
+    }
+  },
+  "availabilityZones": 2,
+  "removalPolicy": "destroy",
+  "autoDelete": true,
+  "cdkNag": false,
+  "stacks": {
+    "vpc": {
+      "name": "vpc",
+      "allowedRanges": ["138.229.248.159/32", "98.35.24.49/32"]
+    },
+    "workstation": {
+      "name": "workstation",
+      "jumpboxInstanceType": "t3.small",
+      "workstationAmiId": "ami-078ccef50da6e5140",
+      "workstationInstanceType": "g5.4xlarge",
+      "workstationQuantity": 4
+    },
+    "nucleus": {
+      "name": "nucleus",
+      "rootDomain": "kccartle.people.aws.dev",
+      "nucleusSubdomain": "nucleus",
+      "nucleusBuild": "nucleus-stack-2023.1.0+tag-2023.1.0.gitlab.8633670.7f07353a"
+    }
+  }
+}
