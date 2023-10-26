@@ -20,12 +20,14 @@ export class JumpboxResources extends Construct {
     constructor(scope: Construct, id: string, props: JumpboxResourcesProps) {
         super(scope, id);
 
+        // create EC2 instance role
         const instanceRole = new iam.Role(this, 'InstanceRole', {
             assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
             description: 'EC2 Instance Role',
             managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')],
         });
 
+        // standard EBS volume
         const ebsVolume: ec2.BlockDevice = {
             deviceName: '/dev/xvda',
             volume: ec2.BlockDeviceVolume.ebs(8, {
@@ -33,6 +35,7 @@ export class JumpboxResources extends Construct {
             }),
         };
 
+        // key pair for instance access
         const keyPair = new ec2.CfnKeyPair(this, 'JumpboxKeyPair', {
             keyName: `${props.stackName}-jumpbox-kp`,
         });

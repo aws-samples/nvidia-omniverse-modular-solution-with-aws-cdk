@@ -17,6 +17,7 @@ export interface WorkstationStackProps extends StackProps {
     removalPolicy: RemovalPolicy;
 }
 
+
 export class WorkstationStack extends Stack {
     constructor(scope: Construct, id: string, props: WorkstationStackProps) {
         super(scope, id, props);

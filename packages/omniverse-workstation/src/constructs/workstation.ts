@@ -21,6 +21,7 @@ export class WorkstationResources extends Construct {
     constructor(scope: Construct, id: string, props: WorkstationResourcesProps) {
         super(scope, id);
 
+        // create EC2 instance role
         const instanceRole = new iam.Role(this, 'InstanceRole', {
             assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
             description: 'EC2 Instance Role',
@@ -37,6 +38,7 @@ export class WorkstationResources extends Construct {
             }
         });
 
+        // EBS volume - increase storage space for OV assets
         const ebsVolume: ec2.BlockDevice = {
             deviceName: '/dev/sda1',
             volume: ec2.BlockDeviceVolume.ebs(500, {
@@ -44,12 +46,14 @@ export class WorkstationResources extends Construct {
             }),
         };
 
+        // lookup OV AMI based on config parameters 
         const machineImage = ec2.MachineImage.lookup({
             name: props.amiName,
             filters: {
                 'image-id': [props.amiId]
             }
         });
+
 
         let instances = [];
         for (let index = 0; index < props.instanceQuantity; index++) {
@@ -66,7 +70,6 @@ export class WorkstationResources extends Construct {
                 detailedMonitoring: true,
                 requireImdsv2: true,
             });
-
             instance.applyRemovalPolicy(props.removalPolicy);
             instances.push(instance);
         }
