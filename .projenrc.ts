@@ -40,7 +40,6 @@ const params = {
     include: ["src"],
     exclude: ["cdk.out", "dist", "node_modules", "tst", "scripts"]
   },
-  gitignore: ["config/*"],
   packageManager: javascript.NodePackageManager.PNPM
 };
 
@@ -80,6 +79,7 @@ const nucleus = new TypeScriptProject({
     "constructs",
     "cdk-nag",
   ],
+  gitignore: ["*/stacks/*"],
   ...params
 });
 
