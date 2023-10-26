@@ -13,10 +13,14 @@ export interface VpcStackProps extends StackProps {
     removalPolicy: RemovalPolicy;
 }
 
+export interface VpcStackOutput {
+    vpc: ec2.Vpc;
+    subnets: SubnetCollection;
+    securityGroups: SecurityGroupCollection;
+}
+
 export class VpcStack extends Stack {
-    public readonly vpc: ec2.Vpc;
-    public readonly subnets: SubnetCollection;
-    public readonly securityGroups: SecurityGroupCollection;
+    public readonly output: VpcStackOutput;
 
     constructor(scope: Construct, id: string, props: VpcStackProps) {
         super(scope, id, props);
@@ -62,8 +66,10 @@ export class VpcStack extends Stack {
             ...props
         });
 
-        this.vpc = vpc;
-        this.subnets = subnets;
-        this.securityGroups = securityGroups;
+        this.output = {
+            vpc: vpc,
+            subnets: subnets,
+            securityGroups: securityGroups
+        };
     }
 }

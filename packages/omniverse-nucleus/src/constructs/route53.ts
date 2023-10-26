@@ -2,8 +2,10 @@ import { Construct } from 'constructs';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
+import { Vpc } from 'aws-cdk-lib/aws-ec2';
 
 export interface Route53ResourceProps {
+    vpc: Vpc,
     rootDomain: string;
     removalPolicy: RemovalPolicy;
 }
@@ -16,6 +18,7 @@ export class Route53Resource extends Construct {
         super(scope, id);
 
         this.hostedZone = new HostedZone(this, 'PrivateHostedZone', {
+            vpcs: [props.vpc],
             zoneName: props.rootDomain,
         });
         this.hostedZone.applyRemovalPolicy(props.removalPolicy);

@@ -19,7 +19,7 @@
       "workstationAmiName": "ov-desktop-base-v2",
       "workstationAmiId": "ami-078ccef50da6e5140",
       "workstationInstanceType": "g5.4xlarge",
-      "workstationQuantity": 4
+      "workstationQuantity": 2
     },
     "nucleus": {
       "name": "nucleus",

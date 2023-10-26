@@ -1,4 +1,4 @@
-export enum ProjectType {
+export enum ApplicationType {
     WORKSTATION = "workstation",
     NUCLEUS = "nucleus",
     CACHE = "cache",

@@ -40,6 +40,7 @@ export class NucleusStack extends Stack {
          * Route 53
          */
         const { hostedZone, certificate } = new Route53Resource(this, 'Route53Resources', {
+            vpc: props.vpc,
             rootDomain: props.rootDomain,
             removalPolicy: props.removalPolicy
         });
