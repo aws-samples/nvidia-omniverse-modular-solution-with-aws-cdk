@@ -41,7 +41,9 @@
     "aws-cdk-lib": "^2.102.0",
     "cdk-nag": "^2.27.172",
     "constructs": "^10.0.5",
+    "omniverse-farm": "^0.0.0",
     "omniverse-nucleus": "^0.0.0",
+    "omniverse-nucleus-cache": "^0.0.0",
     "omniverse-vpc": "^0.0.0",
     "omniverse-workstation": "^0.0.0"
   },

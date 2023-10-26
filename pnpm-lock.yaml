@@ -86,9 +86,15 @@ importers:
       constructs:
         specifier: ^10.0.5
         version: 10.3.0
+      omniverse-farm:
+        specifier: ^0.0.0
+        version: link:../packages/omniverse-farm
       omniverse-nucleus:
         specifier: ^0.0.0
         version: link:../packages/omniverse-nucleus
+      omniverse-nucleus-cache:
+        specifier: ^0.0.0
+        version: link:../packages/omniverse-nucleus-cache
       omniverse-vpc:
         specifier: ^0.0.0
         version: link:../packages/omniverse-vpc
@@ -145,6 +151,61 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  packages/omniverse-farm:
+    dependencies:
+      aws-cdk-lib:
+        specifier: ^2.102.0
+        version: 2.102.0(constructs@10.3.0)
+      cdk-nag:
+        specifier: ^2.27.172
+        version: 2.27.172(aws-cdk-lib@2.102.0)(constructs@10.3.0)
+      constructs:
+        specifier: ^10.3.0
+        version: 10.3.0
+      omniverse-vpc:
+        specifier: ^0.0.0
+        version: link:../omniverse-vpc
+    devDependencies:
+      '@types/node':
+        specifier: ^16
+        version: 16.18.59
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6
+        version: 6.9.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^6
+        version: 6.9.0(eslint@8.52.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8
+        version: 8.52.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.52.0)
+      eslint-import-resolver-node:
+        specifier: ^0.3.9
+        version: 0.3.9
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.1
+        version: 3.6.1(@typescript-eslint/parser@6.9.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0)(eslint@8.52.0)
+      eslint-plugin-import:
+        specifier: ^2.29.0
+        version: 2.29.0(@typescript-eslint/parser@6.9.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.52.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.1
+        version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.52.0)(prettier@3.0.3)
+      npm-check-updates:
+        specifier: ^16
+        version: 16.14.6
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
+      projen:
+        specifier: ^0.76.6
+        version: 0.76.6
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
   packages/omniverse-nucleus:
     dependencies:
       '@aws-cdk/aws-lambda-python-alpha':
@@ -159,6 +220,64 @@ importers:
       constructs:
         specifier: ^10.3.0
         version: 10.3.0
+      omniverse-vpc:
+        specifier: ^0.0.0
+        version: link:../omniverse-vpc
+    devDependencies:
+      '@types/node':
+        specifier: ^16
+        version: 16.18.59
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6
+        version: 6.9.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^6
+        version: 6.9.0(eslint@8.52.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8
+        version: 8.52.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.52.0)
+      eslint-import-resolver-node:
+        specifier: ^0.3.9
+        version: 0.3.9
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.1
+        version: 3.6.1(@typescript-eslint/parser@6.9.0)(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.0)(eslint@8.52.0)
+      eslint-plugin-import:
+        specifier: ^2.29.0
+        version: 2.29.0(@typescript-eslint/parser@6.9.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.52.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.1
+        version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.52.0)(prettier@3.0.3)
+      npm-check-updates:
+        specifier: ^16
+        version: 16.14.6
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
+      projen:
+        specifier: ^0.76.6
+        version: 0.76.6
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/omniverse-nucleus-cache:
+    dependencies:
+      aws-cdk-lib:
+        specifier: ^2.102.0
+        version: 2.102.0(constructs@10.3.0)
+      cdk-nag:
+        specifier: ^2.27.172
+        version: 2.27.172(aws-cdk-lib@2.102.0)(constructs@10.3.0)
+      constructs:
+        specifier: ^10.3.0
+        version: 10.3.0
+      omniverse-vpc:
+        specifier: ^0.0.0
+        version: link:../omniverse-vpc
     devDependencies:
       '@types/node':
         specifier: ^16
@@ -263,6 +382,9 @@ importers:
       constructs:
         specifier: ^10.3.0
         version: 10.3.0
+      omniverse-vpc:
+        specifier: ^0.0.0
+        version: link:../omniverse-vpc
     devDependencies:
       '@types/node':
         specifier: ^16

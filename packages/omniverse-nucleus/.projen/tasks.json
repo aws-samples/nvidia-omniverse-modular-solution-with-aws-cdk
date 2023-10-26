@@ -105,13 +105,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,prettier,projen,typescript,@aws-cdk/aws-lambda-python-alpha,aws-cdk-lib,cdk-nag,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,prettier,projen,typescript,@aws-cdk/aws-lambda-python-alpha,aws-cdk-lib,cdk-nag,constructs,omniverse-vpc"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates prettier projen typescript @aws-cdk/aws-lambda-python-alpha aws-cdk-lib cdk-nag constructs"
+          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates prettier projen typescript @aws-cdk/aws-lambda-python-alpha aws-cdk-lib cdk-nag constructs omniverse-vpc"
         },
         {
           "exec": "npx projen"

@@ -61,6 +61,7 @@ const workstation = new TypeScriptProject({
   name: "omniverse-workstation",
   outdir: "packages/omniverse-workstation",
   deps: [
+    vpc.package.packageName,
     "aws-cdk-lib",
     "constructs",
     "cdk-nag",
@@ -73,6 +74,7 @@ const nucleus = new TypeScriptProject({
   name: "omniverse-nucleus",
   outdir: "packages/omniverse-nucleus",
   deps: [
+    vpc.package.packageName,
     '@aws-cdk/aws-lambda-python-alpha',
     "aws-cdk-lib",
     "constructs",
@@ -81,6 +83,31 @@ const nucleus = new TypeScriptProject({
   ...params
 });
 
+// Omniverse Nucleus Cache
+const cache = new TypeScriptProject({
+  name: "omniverse-nucleus-cache",
+  outdir: "packages/omniverse-nucleus-cache",
+  deps: [
+    vpc.package.packageName,
+    "aws-cdk-lib",
+    "constructs",
+    "cdk-nag",
+  ],
+  ...params
+});
+
+// Omniverse Farm
+const farm = new TypeScriptProject({
+  name: "omniverse-farm",
+  outdir: "packages/omniverse-farm",
+  deps: [
+    vpc.package.packageName,
+    "aws-cdk-lib",
+    "constructs",
+    "cdk-nag",
+  ],
+  ...params
+});
 
 // CDK Application
 new AwsCdkTypeScriptApp({
@@ -90,6 +117,8 @@ new AwsCdkTypeScriptApp({
     vpc.package.packageName,
     workstation.package.packageName,
     nucleus.package.packageName,
+    cache.package.packageName,
+    farm.package.packageName,
     "aws-cdk-lib",
     "constructs",
     "cdk-nag",

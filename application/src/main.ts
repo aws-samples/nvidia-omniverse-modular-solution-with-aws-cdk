@@ -1,29 +1,48 @@
-import { App, Environment, RemovalPolicy } from 'aws-cdk-lib';
+import { App, RemovalPolicy } from 'aws-cdk-lib';
 import { VpcStack } from "omniverse-vpc";
+import { NucleusStack } from "omniverse-nucleus";
+import { WorkstationStack } from "omniverse-workstation";
 import config from './config/app.config.json';
 
-
-const getEnvironment = (envType: string): Environment => {
-  return envType == 'prod' ? config.env.prod : config.env.dev;
-};
-
-
 const app = new App();
-
-const environment = getEnvironment(app.node.tryGetContext("ENV"));
-if (environment) {
-  console.info(`👉 Using Environment: ${JSON.stringify(environment)}`);
-} else {
-  throw new Error("Unable to determine deployment environment. Specify '--context ENV=<ENV>' as either 'dev' or 'prod'.");
-}
+console.info(`👉 Using Environment: ${JSON.stringify(config.env)}`);
 
 const vpcStackName = `${config.name}-${config.stacks.vpc.name}`;
-new VpcStack(app, vpcStackName, {
+const { vpc, subnets, securityGroups } = new VpcStack(app, vpcStackName, {
   stackName: vpcStackName,
-  env: environment,
+  env: config.env,
   availabilityZones: config.availabilityZones,
   removalPolicy: config.removalPolicy as RemovalPolicy,
   ...config.stacks.vpc
+});
+
+/**
+ * Omniverse Nucleus
+ */
+const nucleusStackName = `${config.name}-${config.stacks.nucleus.name}`;
+new NucleusStack(app, nucleusStackName, {
+  stackName: nucleusStackName,
+  env: config.env,
+  vpc: vpc,
+  subnets: subnets,
+  securityGroups: securityGroups,
+  removalPolicy: config.removalPolicy as RemovalPolicy,
+  autoDelete: config.autoDelete,
+  ...config.stacks.nucleus
+});
+
+/**
+ * Omniverse Workstations
+ */
+const workstationStackName = `${config.name}-${config.stacks.workstation.name}`;
+new WorkstationStack(app, workstationStackName, {
+  stackName: nucleusStackName,
+  env: config.env,
+  vpc: vpc,
+  subnets: subnets,
+  securityGroups: securityGroups,
+  removalPolicy: config.removalPolicy as RemovalPolicy,
+  ...config.stacks.workstation
 });
 
 app.synth();

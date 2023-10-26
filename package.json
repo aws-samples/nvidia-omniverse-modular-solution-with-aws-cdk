@@ -65,7 +65,9 @@
   "workspaces": {
     "packages": [
       "application",
+      "packages/omniverse-farm",
       "packages/omniverse-nucleus",
+      "packages/omniverse-nucleus-cache",
       "packages/omniverse-vpc",
       "packages/omniverse-workstation"
     ]

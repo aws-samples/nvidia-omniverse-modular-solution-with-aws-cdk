@@ -1,11 +1,5 @@
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
-export enum ProjectType {
-    WORKSTATION = "workstation",
-    NUCLEUS = "nucleus",
-    CACHE = "cache",
-    FARM = "farm",
-}
 export interface VpcResources {
     vpc: ec2.Vpc,
     subnets: ec2.ISubnet[],

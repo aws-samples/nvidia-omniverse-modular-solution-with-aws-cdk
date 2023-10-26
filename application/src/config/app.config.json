@@ -1,14 +1,8 @@
 {
   "name": "omni",
   "env": {
-    "dev": {
-      "account": "070483837758",
-      "region": "us-west-2"
-    },
-    "prod": {
-      "account": "",
-      "region": "us-west-2"
-    }
+    "account": "070483837758",
+    "region": "us-west-2"
   },
   "availabilityZones": 2,
   "removalPolicy": "destroy",
@@ -22,6 +16,7 @@
     "workstation": {
       "name": "workstation",
       "jumpboxInstanceType": "t3.small",
+      "workstationAmiName": "ov-desktop-base-v2",
       "workstationAmiId": "ami-078ccef50da6e5140",
       "workstationInstanceType": "g5.4xlarge",
       "workstationQuantity": 4

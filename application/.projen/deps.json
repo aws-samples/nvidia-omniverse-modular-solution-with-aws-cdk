@@ -85,7 +85,15 @@
       "type": "runtime"
     },
     {
+      "name": "omniverse-farm",
+      "type": "runtime"
+    },
+    {
       "name": "omniverse-nucleus",
+      "type": "runtime"
+    },
+    {
+      "name": "omniverse-nucleus-cache",
       "type": "runtime"
     },
     {
