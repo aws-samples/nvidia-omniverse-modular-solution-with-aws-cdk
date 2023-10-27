@@ -1,5 +1,5 @@
 {
-  "name": "application",
+  "name": "omniverse-nucleus-cache",
   "scripts": {
     "build": "npx projen build",
     "bundle": "npx projen bundle",

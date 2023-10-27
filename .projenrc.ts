@@ -14,8 +14,8 @@ const params = {
   author: "Kellan Cartledge",
   authorAddress: "kccartle@amazon.com",
   repositoryUrl: "https://gitlab.aws.dev/stac-nvidia-omniverse-council/nvidia-omniverse-on-aws",
-  parent: project,
   defaultReleaseBranch: "main",
+  parent: project,
   cdkVersion: "2.102.0",
   entrypoint: "dist/index.js",
   entrypointTypes: "dist/index.d.ts",
@@ -40,90 +40,54 @@ const params = {
     include: ["src"],
     exclude: ["cdk.out", "dist", "node_modules", "tst", "scripts"]
   },
+  deps: [
+    "aws-cdk-lib",
+    "constructs",
+    "cdk-nag",
+  ],
   packageManager: javascript.NodePackageManager.PNPM
 };
 
-// VPC Infrastructure
-const vpc = new TypeScriptProject({
-  name: "omniverse-vpc",
-  outdir: "packages/omniverse-vpc",
-  deps: [
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
-  ...params
-});
-
-// Omniverse Workstation
-const workstation = new TypeScriptProject({
-  name: "omniverse-workstation",
-  outdir: "packages/omniverse-workstation",
-  deps: [
-    vpc.package.packageName,
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
-  ...params
-});
-
-// Omniverse Nucleus
-const nucleus = new TypeScriptProject({
-  name: "omniverse-nucleus",
-  outdir: "packages/omniverse-nucleus",
-  deps: [
-    vpc.package.packageName,
-    '@aws-cdk/aws-lambda-python-alpha',
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
+const shared = new TypeScriptProject({
+  name: "omniverse-shared",
+  outdir: "shared",
   gitignore: ["*/stacks/*"],
   ...params
 });
+shared.addDeps(
+  '@aws-cdk/aws-lambda-python-alpha'
+);
 
-// Omniverse Nucleus Cache
-const cache = new TypeScriptProject({
+// Omniverse Workstation CDK App
+const workstation = new AwsCdkTypeScriptApp({
+  name: "omniverse-workstation",
+  outdir: "omniverse-workstation",
+  ...params
+});
+workstation.addDeps(shared.package.packageName);
+
+// Omniverse Nucleus CDK App
+const nucleus = new AwsCdkTypeScriptApp({
+  name: "omniverse-nucleus",
+  outdir: "omniverse-nucleus",
+  ...params
+});
+nucleus.addDeps(shared.package.packageName);
+
+// Omniverse Nucleus Cache CDK App
+const cache = new AwsCdkTypeScriptApp({
   name: "omniverse-nucleus-cache",
-  outdir: "packages/omniverse-nucleus-cache",
-  deps: [
-    vpc.package.packageName,
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
+  outdir: "omniverse-nucleus-cache",
   ...params
 });
+cache.addDeps(shared.package.packageName);
 
-// Omniverse Farm
-const farm = new TypeScriptProject({
+// Omniverse Nucleus Cache CDK App
+const farm = new AwsCdkTypeScriptApp({
   name: "omniverse-farm",
-  outdir: "packages/omniverse-farm",
-  deps: [
-    vpc.package.packageName,
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
+  outdir: "omniverse-farm",
   ...params
 });
-
-// CDK Application
-new AwsCdkTypeScriptApp({
-  name: "application",
-  outdir: "application",
-  deps: [
-    vpc.package.packageName,
-    workstation.package.packageName,
-    nucleus.package.packageName,
-    cache.package.packageName,
-    farm.package.packageName,
-    "aws-cdk-lib",
-    "constructs",
-    "cdk-nag",
-  ],
-  ...params
-});
+farm.addDeps(shared.package.packageName);
 
 project.synth();
