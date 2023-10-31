@@ -29,7 +29,8 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-*/stacks/*
+/config/*
+*.config.json
 !/.projenrc.js
 !/.npmrc
 !/test/

@@ -45,13 +45,16 @@ const params = {
     "constructs",
     "cdk-nag",
   ],
+  gitignore: [
+    "/config/*",
+    "*.config.json"
+  ],
   packageManager: javascript.NodePackageManager.PNPM
 };
 
 const shared = new TypeScriptProject({
   name: "omniverse-shared",
   outdir: "shared",
-  gitignore: ["*/stacks/*"],
   ...params
 });
 shared.addDeps(
@@ -86,7 +89,7 @@ cache.addDeps(shared.package.packageName);
 const farm = new AwsCdkTypeScriptApp({
   name: "omniverse-farm",
   outdir: "omniverse-farm",
-  ...params
+  ...params,
 });
 farm.addDeps(shared.package.packageName);
 
