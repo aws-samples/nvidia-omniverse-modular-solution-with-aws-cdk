@@ -45,4 +45,5 @@ jspm_packages/
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+/stack/*
 !/project.json

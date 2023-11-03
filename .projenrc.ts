@@ -47,7 +47,7 @@ const params = {
   ],
   gitignore: [
     "/config/*",
-    "*.config.json"
+    "*.config.json",
   ],
   packageManager: javascript.NodePackageManager.PNPM
 };
@@ -60,6 +60,8 @@ const shared = new TypeScriptProject({
 shared.addDeps(
   '@aws-cdk/aws-lambda-python-alpha'
 );
+shared.addGitIgnore('shared/src/tools/nucleusServer/stack/');
+shared.addGitIgnore('nucleus-stack-*');
 
 // Omniverse Workstation CDK App
 const workstation = new AwsCdkTypeScriptApp({
@@ -76,6 +78,7 @@ const nucleus = new AwsCdkTypeScriptApp({
   ...params
 });
 nucleus.addDeps(shared.package.packageName);
+nucleus.addGitIgnore("/stack/*");
 
 // Omniverse Nucleus Cache CDK App
 const cache = new AwsCdkTypeScriptApp({

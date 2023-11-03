@@ -40,4 +40,6 @@ jspm_packages/
 /lib
 /dist/
 !/.eslintrc.json
+shared/src/tools/nucleusServer/stack/
+nucleus-stack-*
 !/project.json
