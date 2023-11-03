@@ -49,6 +49,7 @@ export class LoadBalancerResources extends Construct {
             recordName: `${props.subdomain}.${props.rootDomain}`,
             ttl: Duration.seconds(60),
             target: RecordTarget.fromAlias(new LoadBalancerTarget(this.loadBalancer)),
+            deleteExisting: props.removalPolicy === RemovalPolicy.DESTROY
         });
         lbRecord.applyRemovalPolicy(props.removalPolicy);
 

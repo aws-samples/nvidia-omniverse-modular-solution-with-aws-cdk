@@ -8,7 +8,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as pyLambda from '@aws-cdk/aws-lambda-python-alpha';
 import { AutoScalingResources } from './autoscaling';
-// import path from 'path';
+import path from 'path';
 
 export interface ReverseProxyResourcesProps {
     stackName: string,
@@ -128,8 +128,7 @@ export class ReverseProxyResources extends Construct {
                     max: 1,
                 },
                 lambdaResources: {
-                    // entry: path.join(__dirname, '..', 'lambda', 'lifecycle-hooks', 'reverse-proxy'),
-                    entry: '../packages/omniverse-nucleus/src/lambda/lifecycle-hooks/reverse-proxy',
+                    entry: path.join(__dirname, '..', '..', '..', 'src', 'lambda', 'lifecycle-hooks', 'reverse-proxy'),
                     layers: props.lambdaLayers,
                     environment: {
                         ARTIFACTS_BUCKET: props.artifactsBucket.bucketName,
@@ -188,8 +187,7 @@ export class ReverseProxyResources extends Construct {
 
         const reverseProxyConfig = new CustomResource(this, 'ReverseProxyCustomResource', {
             lambdaName: `${props.stackName}-reverse-proxy-config`,
-            // lambdaCodePath: path.join(__dirname, '..', 'lambda', 'custom-resources', 'reverse-proxy-config'),
-            lambdaCodePath: '../packages/omniverse-nucleus/src/lambda/custom-resources/reverse-proxy-config',
+            lambdaCodePath: path.join(__dirname, '..', '..', '..', 'src', 'lambda', 'custom-resources', 'reverse-proxy-config'),
             lambdaPolicyDocument: reverseProxyConfigLambdaPolicy,
             lambdaLayers: props.lambdaLayers,
             removalPolicy: props.removalPolicy,

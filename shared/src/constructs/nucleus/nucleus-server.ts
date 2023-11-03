@@ -7,7 +7,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as pyLambda from '@aws-cdk/aws-lambda-python-alpha';
-// import path from 'path';
+import path from 'path';
 
 export interface NucleusResourcesProps {
     stackName: string;
@@ -137,8 +137,7 @@ export class NucleusServerResources extends Construct {
 
         const nucleusServerConfig = new CustomResource(this, 'NucleusServerConfigCustomResource', {
             lambdaName: `${props.stackName}-nucleus-config`,
-            // lambdaCodePath: path.join(__dirname, '..', 'lambda', 'custom-resources', 'nucleus-server-config'),
-            lambdaCodePath: '../packages/omniverse-nucleus/src/lambda/custom-resources/nucleus-server-config',
+            lambdaCodePath: path.join(__dirname, '..', '..', '..', 'src', 'lambda', 'custom-resources', 'nucleus-server-config'),
             lambdaPolicyDocument: nucleusConfigLambdaPolicy,
             resourceProps: {
                 nounce: 2,

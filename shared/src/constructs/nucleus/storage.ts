@@ -5,7 +5,7 @@ import { Construct } from 'constructs';
 import { NagSuppressions } from 'cdk-nag';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as deployment from 'aws-cdk-lib/aws-s3-deployment';
-// import * as path from 'path';
+import * as path from 'path';
 
 export interface StorageResourcesProps {
     stackName: string;
@@ -43,7 +43,7 @@ export class StorageResources extends Construct {
         });
 
         const artifactsDeployment = new deployment.BucketDeployment(this, "ArtifactsDeployment", {
-            sources: [deployment.Source.asset("../packages/omniverse-nucleus/src/tools/")],
+            sources: [deployment.Source.asset(path.join(__dirname, '..', '..', '..', 'src', 'tools'))],
             destinationBucket: sourceBucket,
             destinationKeyPrefix: "tools",
             extract: true,

@@ -49,7 +49,7 @@ export class NucleusStack extends Stack {
          * Lambda Layer - AWS Utils 
          */
         const utilsLambdaLayer = new PythonLayerVersion(this, 'UtilsLayer', {
-            entry: path.join('../packages/omniverse-nucleus/src/lambda/common'),
+            entry: path.join(__dirname, '..', '..', 'src', 'lambda', 'common'),
             compatibleRuntimes: [Runtime.PYTHON_3_9],
             layerVersionName: 'common_utils_layer',
         });
@@ -60,8 +60,8 @@ export class NucleusStack extends Stack {
         const nucleusServerResources = new NucleusServerResources(this, 'NucleusServerResources', {
             stackName: props.stackName,
             ...props,
-            subnets: props.subnets.nucleus,
-            securityGroup: props.securityGroups.nucleus,
+            subnets: props.subnets.nucleus as ec2.ISubnet[],
+            securityGroup: props.securityGroups.nucleus as ec2.SecurityGroup,
             artifactsBucket: artifactsBucket,
             lambdaLayers: [utilsLambdaLayer],
         });
@@ -76,8 +76,8 @@ export class NucleusStack extends Stack {
             removalPolicy: props.removalPolicy,
             artifactsBucket: artifactsBucket,
             vpc: props.vpc,
-            subnets: props.subnets.reverseProxy,
-            securityGroup: props.securityGroups.reverseProxy,
+            subnets: props.subnets.reverseProxy as ec2.ISubnet[],
+            securityGroup: props.securityGroups.reverseProxy as ec2.SecurityGroup,
             lambdaLayers: [utilsLambdaLayer],
             nucleusServerInstance: nucleusServerResources.nucleusServer,
         });
@@ -89,8 +89,8 @@ export class NucleusStack extends Stack {
          */
         new LoadBalancerResources(this, 'LoadBalancerResources', {
             vpc: props.vpc,
-            subnets: props.subnets.loadBalancer,
-            securityGroup: props.securityGroups.loadBalancer,
+            subnets: props.subnets.loadBalancer as ec2.ISubnet[],
+            securityGroup: props.securityGroups.loadBalancer as ec2.SecurityGroup,
             subdomain: props.nucleusSubdomain,
             rootDomain: props.rootDomain,
             certificate: certificate,
