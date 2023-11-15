@@ -11,12 +11,14 @@ single instance evaluation and included in more complex deployments.
 
 ## Contents
 
-- [Step 1 Deploy VPC CloudFormation (CFN)
-  template](#step-1-deploy-vpc-cloudformation-cfn-template)
+- [Step 1 - Deploy VPC CloudFormation (CFN)
+  template](#step-1---deploy-vpc-cloudformation-cfn-template)
 
-- [2 Retrieve Administrator password for the EC2 instance](\l)
+- [2 Retrieve Administrator password for the EC2
+  instance](#retrieve-administrator-password-for-the-ec2-instance)
 
-- [3/ (recommended) Apply patches with Systems Manager (SSM)](\l)
+- [3/ (recommended) Apply patches with Systems Manager
+  (SSM)](#recommended-apply-patches-with-systems-manager-ssm)
 
 - [4/ Connect to the instance using DCV
   Viewer](#connect-to-the-instance-using-dcv-viewer)
@@ -52,9 +54,9 @@ Omniverse Workstation.
 
 <img src="./media/image1.jpeg" style="width:7.49512in;height:4.69in" />
 
-## Steps
+## Instructions
 
-### Step 1 Deploy VPC CloudFormation (CFN) template
+### Step 1 - Deploy VPC CloudFormation (CFN) template
 
 - Navigate to the **CloudFormation Console**
 
