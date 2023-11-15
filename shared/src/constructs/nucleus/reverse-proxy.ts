@@ -20,7 +20,7 @@ export interface ReverseProxyResourcesProps {
     subnets: ec2.ISubnet[];
     securityGroup: ec2.SecurityGroup;
     lambdaLayers: pyLambda.PythonLayerVersion[];
-    nucleusServerInstance: ec2.Instance;
+    nucleusServerRoute: string;
 };
 
 export class ReverseProxyResources extends Construct {
@@ -134,7 +134,7 @@ export class ReverseProxyResources extends Construct {
                         ARTIFACTS_BUCKET: props.artifactsBucket.bucketName,
                         NUCLEUS_ROOT_DOMAIN: props.rootDomain,
                         NUCLEUS_DOMAIN_PREFIX: props.nucleusServerPrefix,
-                        NUCLEUS_SERVER_ADDRESS: props.nucleusServerInstance.instancePrivateDnsName,
+                        NUCLEUS_SERVER_ADDRESS: props.nucleusServerRoute,
                     },
                     policies: {
                         reverseProxyConfigPolicy: reverseProxyConfigPolicy,
@@ -196,7 +196,7 @@ export class ReverseProxyResources extends Construct {
                 ARTIFACTS_BUCKET_NAME: props.artifactsBucket.bucketName,
                 FULL_DOMAIN: `${props.nucleusServerPrefix}.${props.rootDomain}`,
                 RP_AUTOSCALING_GROUP_NAME: autoScalingResources.autoScalingGroup.autoScalingGroupName,
-                NUCLEUS_SERVER_ADDRESS: props.nucleusServerInstance.instancePrivateDnsName,
+                NUCLEUS_SERVER_ADDRESS: props.nucleusServerRoute,
             },
         });
 

@@ -1,5 +1,5 @@
 import { App, RemovalPolicy } from 'aws-cdk-lib';
-import { WorkstationVpcStack, WorkstationStack, SubnetCollection, SecurityGroupCollection } from 'omniverse-shared';
+import { GoldenStack, WorkstationVpcStack, SubnetCollection, SecurityGroupCollection } from 'omniverse-shared';
 import config from './config/app.config.json';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 
@@ -12,14 +12,14 @@ const vpcStackName = `${config.name}-${config.stacks.vpc.name}`;
 const { vpc, subnets, securityGroups } = new WorkstationVpcStack(app, vpcStackName, {
   stackName: vpcStackName,
   env: config.env,
-  availabilityZones: config.availabilityZones,
+  availabilityZones: 1,
   removalPolicy: config.removalPolicy as RemovalPolicy,
   ...config.stacks.vpc
 });
 
-const workstationStackName = `${config.name}-${config.stacks.workstation.name}`;
-new WorkstationStack(app, workstationStackName, {
-  stackName: workstationStackName,
+const goldenStackName = `${config.name}-${config.stacks.workstation.name}`;
+new GoldenStack(app, goldenStackName, {
+  stackName: goldenStackName,
   env: config.env,
   vpc: vpc as Vpc,
   subnets: subnets as SubnetCollection,

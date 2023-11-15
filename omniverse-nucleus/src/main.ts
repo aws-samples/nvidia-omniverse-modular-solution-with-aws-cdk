@@ -37,6 +37,7 @@ new WorkstationStack(app, workstationStackName, {
   subnets: subnets as SubnetCollection,
   securityGroups: securityGroups as SecurityGroupCollection,
   removalPolicy: config.removalPolicy as RemovalPolicy,
+  availabilityZones: config.availabilityZones,
   ...config.stacks.workstation
 });
 

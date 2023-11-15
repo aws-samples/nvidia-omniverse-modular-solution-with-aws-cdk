@@ -9,13 +9,13 @@ export interface JumpboxResourcesProps {
     vpc: ec2.Vpc;
     subnets: ec2.ISubnet[];
     securityGroup: ec2.SecurityGroup;
-    instanceType: string,
+    instanceType: string;
+    instanceQuantity: number;
     removalPolicy: RemovalPolicy;
 };
 
 export class JumpboxResources extends Construct {
-    public readonly jumpboxInstance: ec2.Instance;
-    public readonly keyPairId: string;
+    public readonly instances: ec2.Instance[] = [];
 
     constructor(scope: Construct, id: string, props: JumpboxResourcesProps) {
         super(scope, id);
@@ -39,31 +39,35 @@ export class JumpboxResources extends Construct {
         const keyPair = new ec2.CfnKeyPair(this, 'JumpboxKeyPair', {
             keyName: `${props.stackName}-jumpbox-kp`,
         });
-        this.keyPairId = `/ec2/keypair/${keyPair.attrKeyPairId}`;
+        const keyPairId = `/ec2/keypair/${keyPair.attrKeyPairId}`;
 
         // create jumpbox in each AZ/public subnet
-        this.jumpboxInstance = new ec2.Instance(this, `${props.stackName}-jumpbox`, {
-            instanceName: `${props.stackName}-jumpbox`,
-            instanceType: new ec2.InstanceType(props.instanceType ?? 't3.small'),
-            machineImage: ec2.MachineImage.latestAmazonLinux2023({
-                userData: ec2.UserData.custom(
-                    "#!/bin/bash \
-                    apt-get update -y \
-                    apt-get upgrade -y"
-                )
-            }),
-            keyName: keyPair.keyName,
-            blockDevices: [ebsVolume],
-            vpc: props.vpc,
-            role: instanceRole,
-            securityGroup: props.securityGroup,
-            vpcSubnets: { subnets: props.subnets },
-            detailedMonitoring: true,
-            requireImdsv2: true,
-        });
-        this.jumpboxInstance.applyRemovalPolicy(props.removalPolicy);
-        Tags.of(this.jumpboxInstance).add('Name', `${props.stackName}-jumpbox`);
-        Tags.of(this.jumpboxInstance).add('InstanceType', 'jumpbox');
+        for (let index = 0; index < props.instanceQuantity; index++) {
+            const instance = new ec2.Instance(this, `${props.stackName}-jumpbox-${index + 1}`, {
+                instanceName: `${props.stackName}-jumpbox-${index + 1}`,
+                instanceType: new ec2.InstanceType(props.instanceType ?? 't4g.small'),
+                machineImage: ec2.MachineImage.latestAmazonLinux2023({
+                    userData: ec2.UserData.custom(
+                        "#!/bin/bash \
+                        apt-get update -y \
+                        apt-get upgrade -y"
+                    ),
+                    cpuType: ec2.AmazonLinuxCpuType.ARM_64
+                }),
+                keyName: keyPair.keyName,
+                blockDevices: [ebsVolume],
+                vpc: props.vpc,
+                role: instanceRole,
+                securityGroup: props.securityGroup,
+                vpcSubnets: { subnets: props.subnets },
+                detailedMonitoring: true,
+                requireImdsv2: true,
+            });
+            instance.applyRemovalPolicy(props.removalPolicy);
+            Tags.of(instance).add('InstanceType', 'jumpbox');
+            this.instances.push(instance);
+        }
+
 
         // artifacts bucket
         instanceRole.addToPolicy(
@@ -82,11 +86,13 @@ export class JumpboxResources extends Construct {
          * Outputs
          */
         new CfnOutput(this, 'JumpboxKeyPairId', {
-            value: this.keyPairId,
+            value: keyPairId,
         });
 
-        new CfnOutput(this, `JumpboxIp`, {
-            value: this.jumpboxInstance.instancePublicIp
+        this.instances.forEach((instance, index) => {
+            new CfnOutput(this, `${props.stackName}-jumpbox-${index + 1}-ip`, {
+                value: instance.instancePublicIp
+            });
         });
 
         /**
@@ -116,16 +122,18 @@ export class JumpboxResources extends Construct {
             true
         );
 
-        NagSuppressions.addResourceSuppressions(
-            this.jumpboxInstance,
-            [
-                {
-                    id: 'AwsSolutions-EC29',
-                    reason:
-                        'Instance Termination Protection is not desired for this prototype',
-                },
-            ],
-            true
-        );
+        this.instances.forEach((instance) => {
+            NagSuppressions.addResourceSuppressions(
+                instance,
+                [
+                    {
+                        id: 'AwsSolutions-EC29',
+                        reason:
+                            'Instance Termination Protection is not desired for this project',
+                    },
+                ],
+                true
+            );
+        });
     }
 }

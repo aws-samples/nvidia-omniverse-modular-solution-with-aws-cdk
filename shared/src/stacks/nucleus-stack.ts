@@ -8,6 +8,8 @@ import { ReverseProxyResources } from '../constructs/nucleus/reverse-proxy';
 import { LoadBalancerResources } from '../constructs/nucleus/load-balancer';
 import { Route53Resource } from '../constructs/nucleus/route53';
 import { SecurityGroupCollection, SubnetCollection } from '../types';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import path from 'path';
 
@@ -15,6 +17,8 @@ export interface NucleusStackProps extends StackProps {
     rootDomain: string;
     nucleusSubdomain: string;
     nucleusBuild: string;
+    privateCaArn?: string;
+    publicZoneId?: string;
     vpc: ec2.Vpc;
     subnets: SubnetCollection;
     securityGroups: SecurityGroupCollection;
@@ -40,9 +44,7 @@ export class NucleusStack extends Stack {
          * Route 53
          */
         const { hostedZone, certificate } = new Route53Resource(this, 'Route53Resources', {
-            vpc: props.vpc,
-            rootDomain: props.rootDomain,
-            removalPolicy: props.removalPolicy
+            ...props
         });
 
         /**
@@ -79,7 +81,7 @@ export class NucleusStack extends Stack {
             subnets: props.subnets.reverseProxy as ec2.ISubnet[],
             securityGroup: props.securityGroups.reverseProxy as ec2.SecurityGroup,
             lambdaLayers: [utilsLambdaLayer],
-            nucleusServerInstance: nucleusServerResources.nucleusServer,
+            nucleusServerRoute: `internal.${props.nucleusSubdomain}.${props.rootDomain}`,
         });
 
         reverseProxyResources.node.addDependency(nucleusServerResources);
@@ -93,8 +95,8 @@ export class NucleusStack extends Stack {
             securityGroup: props.securityGroups.loadBalancer as ec2.SecurityGroup,
             subdomain: props.nucleusSubdomain,
             rootDomain: props.rootDomain,
-            certificate: certificate,
-            hostedZone: hostedZone,
+            certificate: certificate as Certificate,
+            hostedZone: hostedZone as HostedZone,
             autoscalingGroup: reverseProxyResources.autoScalingGroup,
             connections: [props.securityGroups.workstation],
             logsBucket: logsBucket,

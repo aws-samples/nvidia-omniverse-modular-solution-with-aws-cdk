@@ -34,7 +34,7 @@ export class StorageResources extends Construct {
         });
 
         const sourceBucket = new s3.Bucket(this, 'ArtifactsBucket', {
-            bucketName: `${props.stackName}-omniverse-nucleus-artifacts-bucket`,
+            bucketName: `${props.stackName}-${Stack.of(this).region}-omniverse-nucleus-artifacts-bucket`,
             autoDeleteObjects: props.autoDelete,
             removalPolicy: props.removalPolicy,
             enforceSSL: true,

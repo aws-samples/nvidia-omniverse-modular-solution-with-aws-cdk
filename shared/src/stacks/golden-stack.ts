@@ -2,25 +2,20 @@ import { RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { SecurityGroupCollection, SubnetCollection } from '../types';
 import { JumpboxResources } from '../constructs/workstation/jumpbox';
-import { WorkstationResources } from '../constructs/workstation/workstation';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import { GoldenWorkstationResources } from '../constructs/golden/golden-workstation';
 
-export interface WorkstationStackProps extends StackProps {
+export interface GoldenStackProps extends StackProps {
     vpc: ec2.Vpc;
     subnets: SubnetCollection;
     securityGroups: SecurityGroupCollection;
-    availabilityZones: number;
     jumpboxInstanceType: string;
-    workstationAmiName: string;
-    workstationAmiId: string;
     workstationInstanceType: string;
-    workstationQuantity: number;
     removalPolicy: RemovalPolicy;
 }
 
-
-export class WorkstationStack extends Stack {
-    constructor(scope: Construct, id: string, props: WorkstationStackProps) {
+export class GoldenStack extends Stack {
+    constructor(scope: Construct, id: string, props: GoldenStackProps) {
         super(scope, id, props);
 
         if (!props.stackName) {
@@ -37,24 +32,20 @@ export class WorkstationStack extends Stack {
             subnets: props.subnets.public,
             securityGroup: props.securityGroups.jumpbox,
             instanceType: props.jumpboxInstanceType,
-            instanceQuantity: props.workstationQuantity,
+            instanceQuantity: 1,
             removalPolicy: props.removalPolicy
         });
 
         /**
-         * Omniverse Workstations
+         * Omniverse Workstation Base
          */
-        new WorkstationResources(this, 'WorkstationResources', {
+        new GoldenWorkstationResources(this, 'GoldenWorkstationResources', {
             stackName: props.stackName,
             vpc: props.vpc,
             subnets: props.subnets.workstation,
             securityGroup: props.securityGroups.workstation,
-            amiName: props.workstationAmiName,
-            amiId: props.workstationAmiId,
             instanceType: props.workstationInstanceType,
-            instanceQuantity: props.availabilityZones,
-            removalPolicy: props.removalPolicy
+            removalPolicy: props.removalPolicy,
         });
-
     }
 }

@@ -6,5 +6,10 @@
     "us-west-2d"
   ],
   "ami:account=070483837758:filters.image-id.0=ami-078ccef50da6e5140:filters.image-type.0=machine:filters.name.0=ov-desktop-base-v2:filters.state.0=available:region=us-west-2": "ami-078ccef50da6e5140",
-  "ami:account=070483837758:filters.image-id.0=ami-02bd90bffdda5b267:filters.image-type.0=machine:filters.name.0=ov-desktop-base-v3:filters.state.0=available:region=us-west-2": "ami-02bd90bffdda5b267"
+  "ami:account=070483837758:filters.image-id.0=ami-02bd90bffdda5b267:filters.image-type.0=machine:filters.name.0=ov-desktop-base-v3:filters.state.0=available:region=us-west-2": "ami-02bd90bffdda5b267",
+  "hosted-zone:account=070483837758:domainName=kccartle.people.aws.dev:privateZone=false:region=us-west-2": {
+    "Id": "/hostedzone/Z1019881210XGXZY5MXZQ",
+    "Name": "kccartle.people.aws.dev."
+  },
+  "ami:account=070483837758:filters.image-id.0=ami-0b571d07b63bdd671:filters.image-type.0=machine:filters.name.0=omni-golden-base-kc:filters.state.0=available:region=us-west-2": "ami-0b571d07b63bdd671"
 }

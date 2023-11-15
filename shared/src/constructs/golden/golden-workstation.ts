@@ -3,23 +3,22 @@ import { Stack, RemovalPolicy, CfnOutput, Tags } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import { readFileSync } from 'fs';
+import path from 'path';
 
-export interface WorkstationResourcesProps {
+export interface GoldenWorkstationResourcesProps {
     stackName: string;
     vpc: ec2.Vpc;
     subnets: ec2.ISubnet[];
     securityGroup: ec2.SecurityGroup;
-    amiName: string;
-    amiId: string;
     instanceType: string;
-    instanceQuantity: number;
     removalPolicy: RemovalPolicy;
 };
 
-export class WorkstationResources extends Construct {
-    public readonly instances: ec2.Instance[] = [];
+export class GoldenWorkstationResources extends Construct {
+    public readonly instance: ec2.Instance;
 
-    constructor(scope: Construct, id: string, props: WorkstationResourcesProps) {
+    constructor(scope: Construct, id: string, props: GoldenWorkstationResourcesProps) {
         super(scope, id);
 
         // create EC2 instance role
@@ -47,40 +46,39 @@ export class WorkstationResources extends Construct {
             }),
         };
 
-        // lookup OV AMI based on config parameters 
+        // lookup windows server 2022 ami as base for ov workstation image
         const machineImage = ec2.MachineImage.lookup({
-            name: props.amiName,
-            filters: {
-                'image-id': [props.amiId]
-            }
+            name: 'Windows_Server-2022-English-Full-Base-2023.10.11',
+            windows: true,
+            owners: ['801119661308']
         });
 
         // key pair for instance access
         const keyPair = new ec2.CfnKeyPair(this, 'WorkstationKeyPair', {
-            keyName: `${props.stackName}-workstation-kp`,
+            keyName: `${props.stackName}-golden-kp`,
         });
         const keyPairId = `/ec2/keypair/${keyPair.attrKeyPairId}`;
 
+        const userData = ec2.UserData.custom(readFileSync(path.join(__dirname, '..', '..', '..', 'src', 'scripts', 'golden', 'user-data.ps1'), {
+            encoding: 'utf8'
+        }).toString());
 
-        for (let index = 0; index < props.instanceQuantity; index++) {
-            const subnet: ec2.ISubnet = props.subnets[index % props.subnets.length];
-            const instance = new ec2.Instance(this, `${props.stackName}-omniverse-workstation-${index + 1}`, {
-                instanceName: `${props.stackName}-omniverse-workstation-${index + 1}`,
-                instanceType: new ec2.InstanceType(props.instanceType || 'g5.4xlarge'),
-                machineImage: machineImage,
-                keyName: keyPair.keyName,
-                blockDevices: [ebsVolume],
-                vpc: props.vpc,
-                role: instanceRole,
-                securityGroup: props.securityGroup,
-                vpcSubnets: { subnets: [subnet] },
-                detailedMonitoring: true,
-                requireImdsv2: true,
-            });
-            instance.applyRemovalPolicy(props.removalPolicy);
-            Tags.of(instance).add('InstanceType', 'workstation');
-            this.instances.push(instance);
-        }
+        this.instance = new ec2.Instance(this, `${props.stackName}-omniverse-workstation-base`, {
+            instanceName: `${props.stackName}-workstation-base`,
+            instanceType: new ec2.InstanceType(props.instanceType || 'g5.4xlarge'),
+            machineImage: machineImage,
+            keyName: keyPair.keyName,
+            blockDevices: [ebsVolume],
+            vpc: props.vpc,
+            role: instanceRole,
+            securityGroup: props.securityGroup,
+            vpcSubnets: { subnets: props.subnets },
+            detailedMonitoring: true,
+            requireImdsv2: true,
+            userData: userData
+        });
+        this.instance.applyRemovalPolicy(props.removalPolicy);
+        Tags.of(this.instance).add('InstanceType', 'workstation');
 
         /**
          * Outputs
@@ -89,10 +87,8 @@ export class WorkstationResources extends Construct {
             value: keyPairId,
         });
 
-        this.instances.forEach((instance, index) => {
-            new CfnOutput(this, `${props.stackName}-omniverse-workstation-${index + 1}-ip`, {
-                value: instance.instancePrivateIp
-            });
+        new CfnOutput(this, `${props.stackName}-omniverse-workstation-base-ip`, {
+            value: this.instance.instancePrivateIp
         });
 
         /**
@@ -115,18 +111,16 @@ export class WorkstationResources extends Construct {
             true
         );
 
-        this.instances.forEach((instance) => {
-            NagSuppressions.addResourceSuppressions(
-                instance,
-                [
-                    {
-                        id: 'AwsSolutions-EC29',
-                        reason:
-                            'Instance Termination Protection is not desired for this project',
-                    },
-                ],
-                true
-            );
-        });
+        NagSuppressions.addResourceSuppressions(
+            this.instance,
+            [
+                {
+                    id: 'AwsSolutions-EC29',
+                    reason:
+                        'Instance Termination Protection is not desired for this project',
+                },
+            ],
+            true
+        );
     }
 }
