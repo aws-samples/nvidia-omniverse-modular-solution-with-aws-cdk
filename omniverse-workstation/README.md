@@ -12,7 +12,7 @@ single instance evaluation and included in more complex deployments.
 ## Contents
 
 - [1/ Deploy VPC CloudFormation (CFN)
-  template](#deploy-vpc-cloudformation-cfn-template)
+  template](#1-deploy-vpc-cloudformation-cfn-template)
 
 - [2/ Retrieve Administrator password for the EC2
   instance](#retrieve-administrator-password-for-the-ec2-instance)
