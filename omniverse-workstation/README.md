@@ -15,25 +15,25 @@ single instance evaluation and included in more complex deployments.
   template](#1-deploy-vpc-cloudformation-cfn-template)
 
 - [2/ Retrieve Administrator password for the EC2
-  instance](#retrieve-administrator-password-for-the-ec2-instance)
+  instance](#2-retrieve-administrator-password-for-the-ec2-instance)
 
 - [3/ (recommended) Apply patches with Systems Manager
-  (SSM)](#recommended-apply-patches-with-systems-manager-ssm)
+  (SSM)](#3-recommended-apply-patches-with-systems-manager-ssm)
 
 - [4/ Connect to the instance using DCV
-  Viewer](#connect-to-the-instance-using-dcv-viewer)
+  Viewer](#4-connect-to-the-instance-using-dcv-viewer)
 
 - [5/ (recommended) Enable 4K streaming
-  resolution](#recommended-enable-4k-streaming-resolution)
+  resolution](#5-recommended-enable-4k-streaming-resolution)
 
 - [6/ (recommended) Optimized Omniverse
-  Launcher](#recommended-optimized-omniverse-launcher)
+  Launcher](#6-recommended-optimized-omniverse-launcher)
 
 - [7/ (recommended) Optimize the NVIDIA GPU with the NVIDIA Control
-  Panel](#recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
+  Panel](#7-recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
 
 - [8/ Install USD Composer (formerly
-  Create)](#install-usd-composer-formerly-create)
+  Create)](#8-install-usd-composer-formerly-create)
 
 ## Omniverse Workstation Components
 
