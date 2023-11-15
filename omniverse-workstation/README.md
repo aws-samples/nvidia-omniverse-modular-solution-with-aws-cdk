@@ -53,7 +53,6 @@ Omniverse Workstation.
 ## Architecture
 
 <img src="./media/image1.jpeg" style="width:7.49512in;height:4.69in" />
-![Architecture diagram](./media/image1.jpeg)
 
 ## Steps
 
