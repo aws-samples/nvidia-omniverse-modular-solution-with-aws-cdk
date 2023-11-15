@@ -11,29 +11,27 @@ single instance evaluation and included in more complex deployments.
 
 ## Contents
 
-- [1/ Deploy VPC CloudFormation (CFN)
-  template](#1-deploy-vpc-cloudformation-cfn-template)
+- [Step 1 Deploy VPC CloudFormation (CFN)
+  template](#step-1-deploy-vpc-cloudformation-cfn-template)
 
-- [2/ Retrieve Administrator password for the EC2
-  instance](#2-retrieve-administrator-password-for-the-ec2-instance)
+- [2 Retrieve Administrator password for the EC2 instance](\l)
 
-- [3/ (recommended) Apply patches with Systems Manager
-  (SSM)](#3-recommended-apply-patches-with-systems-manager-ssm)
+- [3/ (recommended) Apply patches with Systems Manager (SSM)](\l)
 
 - [4/ Connect to the instance using DCV
-  Viewer](#4-connect-to-the-instance-using-dcv-viewer)
+  Viewer](#connect-to-the-instance-using-dcv-viewer)
 
 - [5/ (recommended) Enable 4K streaming
-  resolution](#5-recommended-enable-4k-streaming-resolution)
+  resolution](#recommended-enable-4k-streaming-resolution)
 
 - [6/ (recommended) Optimized Omniverse
-  Launcher](#6-recommended-optimized-omniverse-launcher)
+  Launcher](#recommended-optimized-omniverse-launcher)
 
 - [7/ (recommended) Optimize the NVIDIA GPU with the NVIDIA Control
-  Panel](#7-recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
+  Panel](#recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
 
 - [8/ Install USD Composer (formerly
-  Create)](#8-install-usd-composer-formerly-create)
+  Create)](#install-usd-composer-formerly-create)
 
 ## Omniverse Workstation Components
 
@@ -56,7 +54,7 @@ Omniverse Workstation.
 
 ## Steps
 
-### 1/ Deploy VPC CloudFormation (CFN) template
+### Step 1 Deploy VPC CloudFormation (CFN) template
 
 - Navigate to the **CloudFormation Console**
 
@@ -86,7 +84,7 @@ Omniverse Workstation.
 - NOTE: there is an installation log located in
   C:\Users\Administrator\Documents\setup_verification_log.txt
 
-### 2/ Retrieve Administrator password for the EC2 instance
+### 2 Retrieve Administrator password for the EC2 instance
 
 - Navigate to the **Systems Manager Console** \> **Application
   Management** \> **Parameter Store**
