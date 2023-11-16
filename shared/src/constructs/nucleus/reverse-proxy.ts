@@ -72,9 +72,10 @@ export class ReverseProxyResources extends Construct {
          */
         const launchTemplate = new ec2.LaunchTemplate(this, 'LaunchTemplate', {
             launchTemplateName: `${props.stackName}-nginx-reverse-proxy`,
-            instanceType: new ec2.InstanceType('t3.medium'),
+            instanceType: new ec2.InstanceType('t4g.medium'),
             machineImage: ec2.MachineImage.latestAmazonLinux({
-                generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+                generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+                cpuType: ec2.AmazonLinuxCpuType.ARM_64
             }),
             blockDevices: [ebsVolume],
             role: instanceRole,
