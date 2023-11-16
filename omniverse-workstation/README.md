@@ -14,26 +14,27 @@ single instance evaluation and included in more complex deployments.
 - [Step 1 - Deploy VPC CloudFormation (CFN)
   template](#step-1-deploy-vpc-cloudformation-cfn-template)
 
-- [2 Retrieve Administrator password for the EC2
-  instance](#retrieve-administrator-password-for-the-ec2-instance)
+- [Step 2 - Retrieve Administrator password for the EC2
+  instance](#step-2-retrieve-administrator-password-for-the-ec2-instance)
 
-- [3/ (recommended) Apply patches with Systems Manager
-  (SSM)](#recommended-apply-patches-with-systems-manager-ssm)
+- [Step 3 - (recommended) Apply patches with Systems Manager
+  (SSM)](#step-3-recommended-apply-patches-with-systems-manager-ssm)
 
-- [4/ Connect to the instance using DCV
-  Viewer](#connect-to-the-instance-using-dcv-viewer)
+- [Step 4 - Connect to the instance using DCV
+  Viewer](#step-4-connect-to-the-instance-using-dcv-viewer)
 
-- [5/ (recommended) Enable 4K streaming
-  resolution](#recommended-enable-4k-streaming-resolution)
+- [Step 5 - (recommended) Enable 4K streaming
+  resolution](#step-5-recommended-enable-4k-streaming-resolution)
 
-- [6/ (recommended) Optimized Omniverse
-  Launcher](#recommended-optimized-omniverse-launcher)
+- [Step 6 - (recommended) Optimized Omniverse
+  Launcher](#step-6-recommended-optimized-omniverse-launcher)
 
-- [7/ (recommended) Optimize the NVIDIA GPU with the NVIDIA Control
-  Panel](#recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
+- [Step 7 - (recommended) Optimize the NVIDIA GPU with the NVIDIA
+  Control
+  Panel](#step-7-recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
 
-- [8/ Install USD Composer (formerly
-  Create)](#install-usd-composer-formerly-create)
+- [Step 8 - Install USD Composer (formerly
+  Create)](#step-8-install-usd-composer-formerly-create)
 
 ## Omniverse Workstation Components
 
@@ -86,7 +87,7 @@ Omniverse Workstation.
 - NOTE: there is an installation log located in
   C:\Users\Administrator\Documents\setup_verification_log.txt
 
-### 2 Retrieve Administrator password for the EC2 instance
+### Step 2 - Retrieve Administrator password for the EC2 instance
 
 - Navigate to the **Systems Manager Console** \> **Application
   Management** \> **Parameter Store**
@@ -102,7 +103,7 @@ Omniverse Workstation.
 
 - Note the Username and Password values
 
-### 3/ (recommended) Apply patches with Systems Manager (SSM)
+### Step 3 - (recommended) Apply patches with Systems Manager (SSM)
 
 - Navigate to the **Systems Manager Console** \> **Fleet Manager** \>
   **Manage nodes**
@@ -121,7 +122,7 @@ Omniverse Workstation.
 
   - Select **Patch now**
 
-### 4/ Connect to the instance using DCV Viewer
+### Step 4 - Connect to the instance using DCV Viewer
 
 - Copy the **EC2 Key Pair** to a new local file on your device
 
@@ -148,14 +149,14 @@ Omniverse Workstation.
 
 - Supply the user credentials obtained from a step 2
 
-### 5/ (recommended) Enable 4K streaming resolution
+### Step 5 - (recommended) Enable 4K streaming resolution
 
 - Change the Windows display settings on the Workstation
 
   - Open the **Display settings**
 
   - Change the **Display resolution** to 3840 x 2160 if your device
-    support a 4K resolution
+    supports a 4K resolution
 
   - Adjust the **Scale** to 150 or 175% depending on your preference
 
@@ -172,7 +173,7 @@ Omniverse Workstation.
   - Check the **High color accuracy**, **Accurate Audio/Video
     Synchronization**, and **High pixel density options**
 
-### 6/ (recommended) Optimized Omniverse Launcher
+### Step 6 - (recommended) Optimized Omniverse Launcher
 
 - Close **Omniverse Launcher**
 
@@ -193,7 +194,7 @@ Omniverse Workstation.
 
 - Launch **Omniverse Launcher**
 
-### 7/ (recommended) Optimize the NVIDIA GPU with the NVIDIA Control Panel
+### Step 7 - (recommended) Optimize the NVIDIA GPU with the NVIDIA Control Panel
 
 - Open **NVIDIA Control Panel**
 
@@ -229,7 +230,7 @@ Omniverse Workstation.
 > <img src="./media/image6.png"
 > style="width:5.60815in;height:4.07577in" />
 
-### 8/ Install USD Composer (formerly Create)
+### Step 8 - Install USD Composer (formerly Create)
 
 - The first time Omniverse Launcher is launched after the installation
   requires some additional setup. Follow the wizard to complete the
