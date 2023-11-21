@@ -3,12 +3,12 @@ import { GoldenStack, WorkstationVpcStack, SubnetCollection, SecurityGroupCollec
 import config from './config/app.config.json';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 
-console.info('👉 Building Omniverse Workstation Application');
+console.info('👉 Building Omniverse Golden Workstation Application');
 console.info(`👉 Using Environment: ${JSON.stringify(config.env, null, 2)}`);
 
 const app = new App();
 
-const vpcStackName = `${config.name}-${config.stacks.vpc.name}`;
+const vpcStackName = `${config.name}-golden-${config.stacks.vpc.name}`;
 const { vpc, subnets, securityGroups } = new WorkstationVpcStack(app, vpcStackName, {
   stackName: vpcStackName,
   env: config.env,
@@ -17,7 +17,7 @@ const { vpc, subnets, securityGroups } = new WorkstationVpcStack(app, vpcStackNa
   ...config.stacks.vpc
 });
 
-const goldenStackName = `${config.name}-${config.stacks.workstation.name}`;
+const goldenStackName = `${config.name}-golden-${config.stacks.workstation.name}`;
 new GoldenStack(app, goldenStackName, {
   stackName: goldenStackName,
   env: config.env,

@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Stack, RemovalPolicy, CfnOutput, Tags } from 'aws-cdk-lib';
+import { Stack, RemovalPolicy, CfnOutput, Tags, Fn } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -56,11 +56,7 @@ export class WorkstationResources extends Construct {
         });
 
         // key pair for instance access
-        const keyPair = new ec2.CfnKeyPair(this, 'WorkstationKeyPair', {
-            keyName: `${props.stackName}-workstation-kp`,
-        });
-        const keyPairId = `/ec2/keypair/${keyPair.attrKeyPairId}`;
-
+        const keyPairName = Fn.importValue('GoldenWorkstationKeyPairName');
 
         for (let index = 0; index < props.instanceQuantity; index++) {
             const subnet: ec2.ISubnet = props.subnets[index % props.subnets.length];
@@ -68,7 +64,7 @@ export class WorkstationResources extends Construct {
                 instanceName: `${props.stackName}-omniverse-workstation-${index + 1}`,
                 instanceType: new ec2.InstanceType(props.instanceType || 'g5.4xlarge'),
                 machineImage: machineImage,
-                keyName: keyPair.keyName,
+                keyName: keyPairName,
                 blockDevices: [ebsVolume],
                 vpc: props.vpc,
                 role: instanceRole,
@@ -85,9 +81,9 @@ export class WorkstationResources extends Construct {
         /**
          * Outputs
          */
-        new CfnOutput(this, 'WorkstationKeyPairId', {
-            value: keyPairId,
-        });
+        // new CfnOutput(this, 'WorkstationKeyPairId', {
+        //     value: keyPairId,
+        // });
 
         this.instances.forEach((instance, index) => {
             new CfnOutput(this, `${props.stackName}-omniverse-workstation-${index + 1}-ip`, {

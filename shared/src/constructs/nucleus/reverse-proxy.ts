@@ -14,13 +14,13 @@ export interface ReverseProxyResourcesProps {
     stackName: string,
     rootDomain: string,
     nucleusServerPrefix: string,
+    nucleusServer: ec2.Instance;
     removalPolicy: RemovalPolicy;
     artifactsBucket: s3.IBucket;
     vpc: ec2.Vpc;
     subnets: ec2.ISubnet[];
     securityGroup: ec2.SecurityGroup;
     lambdaLayers: pyLambda.PythonLayerVersion[];
-    nucleusServerRoute: string;
 };
 
 export class ReverseProxyResources extends Construct {
@@ -135,7 +135,7 @@ export class ReverseProxyResources extends Construct {
                         ARTIFACTS_BUCKET: props.artifactsBucket.bucketName,
                         NUCLEUS_ROOT_DOMAIN: props.rootDomain,
                         NUCLEUS_DOMAIN_PREFIX: props.nucleusServerPrefix,
-                        NUCLEUS_SERVER_ADDRESS: props.nucleusServerRoute,
+                        NUCLEUS_SERVER_ADDRESS: props.nucleusServer.instancePrivateDnsName,
                     },
                     policies: {
                         reverseProxyConfigPolicy: reverseProxyConfigPolicy,
@@ -197,7 +197,7 @@ export class ReverseProxyResources extends Construct {
                 ARTIFACTS_BUCKET_NAME: props.artifactsBucket.bucketName,
                 FULL_DOMAIN: `${props.nucleusServerPrefix}.${props.rootDomain}`,
                 RP_AUTOSCALING_GROUP_NAME: autoScalingResources.autoScalingGroup.autoScalingGroupName,
-                NUCLEUS_SERVER_ADDRESS: props.nucleusServerRoute,
+                NUCLEUS_SERVER_ADDRESS: props.nucleusServer.instancePrivateDnsName,
             },
         });
 

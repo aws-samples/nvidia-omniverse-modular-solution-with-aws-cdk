@@ -90,8 +90,12 @@ export class NucleusServerResources extends Construct {
             }
         );
 
-        this.nucleusServer = new ec2.Instance(this, `${props.stackName}-nucleus`, {
-            instanceName: `${props.stackName}-nucleus`,
+        /**
+         * Primary Nucleus Instance
+         */
+        const primaryInstanceName = `${props.stackName}-nucleus-server-primary`;
+        this.nucleusServer = new ec2.Instance(this, primaryInstanceName, {
+            instanceName: primaryInstanceName,
             instanceType: new ec2.InstanceType('c5.4xlarge'),
             machineImage: nucleusServerAMI,
             blockDevices: [ebsVolume],
@@ -103,8 +107,30 @@ export class NucleusServerResources extends Construct {
             requireImdsv2: true,
         });
         this.nucleusServer.applyRemovalPolicy(props.removalPolicy);
-        Tags.of(this.nucleusServer).add('Name', `${props.stackName}-nucleus`);
+        Tags.of(this.nucleusServer).add('Name', primaryInstanceName);
         Tags.of(this.nucleusServer).add('InstanceType', 'nucleus');
+        Tags.of(this.nucleusServer).add('Nucleus', 'primary');
+
+        /**
+         * Standby Nucleus Instance
+         */
+        const standbyInstanceName = `${props.stackName}-nucleus-server-standby`;
+        const standbyInstance = new ec2.Instance(this, standbyInstanceName, {
+            instanceName: standbyInstanceName,
+            instanceType: new ec2.InstanceType('c5.4xlarge'),
+            machineImage: nucleusServerAMI,
+            blockDevices: [ebsVolume],
+            vpc: props.vpc,
+            role: instanceRole,
+            securityGroup: props.securityGroup,
+            vpcSubnets: { subnets: [props.subnets.length > 1 ? props.subnets[1] : props.subnets[0]] },
+            detailedMonitoring: true,
+            requireImdsv2: true,
+        });
+        this.nucleusServer.applyRemovalPolicy(props.removalPolicy);
+        Tags.of(this.nucleusServer).add('Name', standbyInstanceName);
+        Tags.of(this.nucleusServer).add('InstanceType', 'nucleus');
+        Tags.of(this.nucleusServer).add('Nucleus', 'standby');
 
         /**
          * CUSTOM RESOURCE - Nucleus Server Config
@@ -142,6 +168,7 @@ export class NucleusServerResources extends Construct {
             resourceProps: {
                 nounce: 2,
                 primaryInstanceId: this.nucleusServer.instanceId,
+                standbyInstanceId: standbyInstance.instanceId,
                 reverseProxyDomain: fullDomainName,
                 nucleusBuild: props.nucleusBuild,
                 artifactsBucket: props.artifactsBucket.bucketName,

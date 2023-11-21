@@ -79,14 +79,14 @@ export class SecurityGroupResourcesBase extends Construct {
         // ssm endpoint rules
         securityGroups.vpcEndpoint.addIngressRule(ec2.Peer.ipv4(this.cidrRange), ec2.Port.tcp(443), 'HTTPS Access');
 
-        // jumpboxSG rules
-        securityGroups.jumpbox.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'SSH Access');
-
         // workstationSG rules
         this.subnets.public.forEach(subnet => {
             securityGroups.workstation.addIngressRule(ec2.Peer.ipv4(subnet.ipv4CidrBlock), ec2.Port.tcp(8443), 'NICE DCV TCP access');
         });
+
         this.allowedRanges.forEach(range => {
+            // jumpboxSG rules
+            securityGroups.jumpbox.addIngressRule(ec2.Peer.ipv4(range), ec2.Port.tcp(22), 'SSH Access');
             securityGroups.workstation.addIngressRule(ec2.Peer.ipv4(range), ec2.Port.tcp(8443), 'NICE DCV TCP access');
         });
     }

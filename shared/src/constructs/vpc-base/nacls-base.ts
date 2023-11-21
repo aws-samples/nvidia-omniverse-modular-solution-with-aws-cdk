@@ -57,37 +57,28 @@ export class NaclResources extends Construct {
          * Allows HTTPS and HTTP traffic for Load Balancer access
          */
         // add allowed ranges from infra.config to ssh to jumpboxes
+        // this.allowedRanges.forEach((range, index) => {
+        //     nacls.public.addEntry(`PrimaryNaclIngressSsh${index}`, {
+        //         direction: ec2.TrafficDirection.INGRESS,
+        //         ruleNumber: 50 + index,
+        //         traffic: ec2.AclTraffic.tcpPort(22),
+        //         cidr: ec2.AclCidr.ipv4(range),
+        //         ruleAction: ec2.Action.ALLOW,
+        //     });
+        // });
 
-        this.allowedRanges.forEach((range, index) => {
-            nacls.public.addEntry(`PrimaryNaclIngressSshRange${index}`, {
-                direction: ec2.TrafficDirection.INGRESS,
-                ruleNumber: 50 + index,
-                traffic: ec2.AclTraffic.tcpPort(22),
-                cidr: ec2.AclCidr.ipv4(range),
-                ruleAction: ec2.Action.ALLOW,
-            });
+        nacls.public.addEntry('PrimaryNaclIngressTcp', {
+            direction: ec2.TrafficDirection.INGRESS,
+            ruleNumber: 100,
+            traffic: ec2.AclTraffic.tcpPortRange(0, 65535),
+            cidr: ec2.AclCidr.anyIpv4(),
+            ruleAction: ec2.Action.ALLOW,
         });
 
-        nacls.public.addEntry('PrimaryNaclIngressHttps', {
+        nacls.public.addEntry('PrimaryNaclIngressUdp', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 200,
-            traffic: ec2.AclTraffic.tcpPort(443),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.public.addEntry('PrimaryNaclIngressHttp', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 300,
-            traffic: ec2.AclTraffic.tcpPort(80),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.public.addEntry('PrimaryNaclIngressALL', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 1000,
-            traffic: ec2.AclTraffic.tcpPortRange(1024, 65535),
+            traffic: ec2.AclTraffic.udpPort(8443),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });
@@ -104,34 +95,18 @@ export class NaclResources extends Construct {
          * Workstation Subnet NACL
          * Allows 8443 TCP & UDP traffic for NICE DCV Viewer
          */
-        nacls.workstation.addEntry('WorkstationNaclIngressNiceTcp', {
+        nacls.workstation.addEntry('WorkstationNaclIngressTcp', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 100,
-            traffic: ec2.AclTraffic.tcpPort(8443),
+            traffic: ec2.AclTraffic.tcpPortRange(0, 65535),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });
 
-        nacls.workstation.addEntry('WorkstationNaclIngressNiceUdp', {
+        nacls.workstation.addEntry('WorkstationNaclIngressUdp', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 200,
             traffic: ec2.AclTraffic.udpPort(8443),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.workstation.addEntry('WorkstationNaclIngressJumpboxTunnel', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 300,
-            traffic: ec2.AclTraffic.udpPort(8888),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.workstation.addEntry('WorkstationNaclIngressALL', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 1000,
-            traffic: ec2.AclTraffic.tcpPortRange(1024, 65535),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });

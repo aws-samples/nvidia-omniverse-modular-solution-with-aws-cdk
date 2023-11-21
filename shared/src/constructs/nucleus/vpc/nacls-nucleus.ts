@@ -56,26 +56,12 @@ export class NucleusNaclResources extends NaclResources {
          * LoadBalancer Subnet NACL
          * Allows 80 & 443 for Load Balancer & NAT Gateway
          */
-        nacls.loadBalancer.addEntry('LoadBalancerNaclIngressHttps', {
+
+        // allow workstation subnets access to nucleus load balancer
+        nacls.loadBalancer.addEntry('LoadBalancerNaclIngress', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 100,
-            traffic: ec2.AclTraffic.tcpPort(443),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.loadBalancer.addEntry('LoadBalancerNaclIngressHttp', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 200,
-            traffic: ec2.AclTraffic.tcpPort(80),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.loadBalancer.addEntry('LoadBalancerNaclIngressALL', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 1000,
-            traffic: ec2.AclTraffic.tcpPortRange(1024, 65535),
+            traffic: ec2.AclTraffic.tcpPortRange(0, 65535),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });
@@ -92,26 +78,10 @@ export class NucleusNaclResources extends NaclResources {
          * Reverse Proxy Subnet NACL
          * Allows 80 & 443 for Load Balancer & NAT Gateway
          */
-        nacls.reverseProxy.addEntry('ReverseProxyNaclIngressHttps', {
+        nacls.reverseProxy.addEntry('ReverseProxyNaclIngressTcp', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 100,
-            traffic: ec2.AclTraffic.tcpPort(443),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.reverseProxy.addEntry('ReverseProxyNaclIngressHttp', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 200,
-            traffic: ec2.AclTraffic.tcpPort(80),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.reverseProxy.addEntry('ReverseProxyNaclIngressALL', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 1000,
-            traffic: ec2.AclTraffic.tcpPortRange(1024, 65535),
+            traffic: ec2.AclTraffic.tcpPortRange(0, 65535),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });
@@ -128,42 +98,10 @@ export class NucleusNaclResources extends NaclResources {
          * Nucleus Server Subnet NACL
          * Allows traffic for Nucleus ports
          */
-        nacls.nucleus.addEntry('NucleusNaclIngressHttps', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 100,
-            traffic: ec2.AclTraffic.tcpPort(443),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.nucleus.addEntry('NucleusNaclIngressHttp', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 200,
-            traffic: ec2.AclTraffic.tcpPort(80),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.nucleus.addEntry('NucleusNaclIngressNucleusRange', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 300,
-            traffic: ec2.AclTraffic.tcpPortRange(3009, 3400),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.nucleus.addEntry('NucleusNaclIngressNucleusWeb3', {
-            direction: ec2.TrafficDirection.INGRESS,
-            ruleNumber: 400,
-            traffic: ec2.AclTraffic.tcpPort(8080),
-            cidr: ec2.AclCidr.anyIpv4(),
-            ruleAction: ec2.Action.ALLOW,
-        });
-
-        nacls.nucleus.addEntry('NucleusNaclIngressALL', {
+        nacls.nucleus.addEntry('NucleusNaclIngressTcp', {
             direction: ec2.TrafficDirection.INGRESS,
             ruleNumber: 1000,
-            traffic: ec2.AclTraffic.tcpPortRange(1024, 65535),
+            traffic: ec2.AclTraffic.tcpPortRange(0, 65535),
             cidr: ec2.AclCidr.anyIpv4(),
             ruleAction: ec2.Action.ALLOW,
         });

@@ -11,5 +11,9 @@
     "Id": "/hostedzone/Z1019881210XGXZY5MXZQ",
     "Name": "kccartle.people.aws.dev."
   },
-  "ami:account=070483837758:filters.image-id.0=ami-0b571d07b63bdd671:filters.image-type.0=machine:filters.name.0=omni-golden-base-kc:filters.state.0=available:region=us-west-2": "ami-0b571d07b63bdd671"
+  "ami:account=070483837758:filters.image-id.0=ami-0b571d07b63bdd671:filters.image-type.0=machine:filters.name.0=omni-golden-base-kc:filters.state.0=available:region=us-west-2": "ami-0b571d07b63bdd671",
+  "ami:account=070483837758:filters.image-id.0=ami-0d8a06faf12421cd8:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-0d8a06faf12421cd8",
+  "ami:account=070483837758:filters.image-id.0=ami-0202431c55279eb6c:filters.image-type.0=machine:filters.name.0=OmniverseWorkstationGoldenAmi:filters.state.0=available:region=us-west-2": "ami-0202431c55279eb6c",
+  "ami:account=070483837758:filters.image-id.0=ami-0399792fec63ccd13:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-0399792fec63ccd13",
+  "ami:account=070483837758:filters.image-id.0=ami-035a58ca2305e3244:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-035a58ca2305e3244"
 }

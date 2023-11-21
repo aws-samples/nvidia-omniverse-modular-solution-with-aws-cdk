@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { NucleusSecurityGroupResources } from '../../constructs/nucleus/vpc/security-groups-nucleus';
 import { NucleusVpcResources } from '../../constructs/nucleus/vpc/vpc-nucleus';
-import { NucleusNaclResources } from '../../constructs/nucleus/vpc/nacls-workstations';
+import { NucleusNaclResources } from '../../constructs/nucleus/vpc/nacls-nucleus';
 import { VpcStack, VpcStackProps } from './vpc-stack';
 
 

@@ -17,8 +17,6 @@ export interface NucleusStackProps extends StackProps {
     rootDomain: string;
     nucleusSubdomain: string;
     nucleusBuild: string;
-    privateCaArn?: string;
-    publicZoneId?: string;
     vpc: ec2.Vpc;
     subnets: SubnetCollection;
     securityGroups: SecurityGroupCollection;
@@ -43,7 +41,7 @@ export class NucleusStack extends Stack {
         /**
          * Route 53
          */
-        const { hostedZone, certificate } = new Route53Resource(this, 'Route53Resources', {
+        const { privateHostedZone, certificate } = new Route53Resource(this, 'Route53Resources', {
             ...props
         });
 
@@ -75,13 +73,13 @@ export class NucleusStack extends Stack {
             stackName: props.stackName,
             rootDomain: props.rootDomain,
             nucleusServerPrefix: props.nucleusSubdomain,
+            nucleusServer: nucleusServerResources.nucleusServer,
             removalPolicy: props.removalPolicy,
             artifactsBucket: artifactsBucket,
             vpc: props.vpc,
             subnets: props.subnets.reverseProxy as ec2.ISubnet[],
             securityGroup: props.securityGroups.reverseProxy as ec2.SecurityGroup,
             lambdaLayers: [utilsLambdaLayer],
-            nucleusServerRoute: `internal.${props.nucleusSubdomain}.${props.rootDomain}`,
         });
 
         reverseProxyResources.node.addDependency(nucleusServerResources);
@@ -96,7 +94,7 @@ export class NucleusStack extends Stack {
             subdomain: props.nucleusSubdomain,
             rootDomain: props.rootDomain,
             certificate: certificate as Certificate,
-            hostedZone: hostedZone as HostedZone,
+            hostedZone: privateHostedZone as HostedZone,
             autoscalingGroup: reverseProxyResources.autoScalingGroup,
             connections: [props.securityGroups.workstation],
             logsBucket: logsBucket,

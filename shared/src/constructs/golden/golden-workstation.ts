@@ -58,6 +58,7 @@ export class GoldenWorkstationResources extends Construct {
             keyName: `${props.stackName}-golden-kp`,
         });
         const keyPairId = `/ec2/keypair/${keyPair.attrKeyPairId}`;
+        keyPair.applyRemovalPolicy(RemovalPolicy.RETAIN);
 
         const userData = ec2.UserData.custom(readFileSync(path.join(__dirname, '..', '..', '..', 'src', 'scripts', 'golden', 'user-data.ps1'), {
             encoding: 'utf8'
@@ -85,7 +86,11 @@ export class GoldenWorkstationResources extends Construct {
          */
         new CfnOutput(this, 'WorkstationKeyPairId', {
             value: keyPairId,
-        });
+        }).exportName = 'GoldenWorkstationKeyPairId';
+
+        new CfnOutput(this, 'WorkstationKeyPairName', {
+            value: keyPair.keyName,
+        }).exportName = 'GoldenWorkstationKeyPairName';
 
         new CfnOutput(this, `${props.stackName}-omniverse-workstation-base-ip`, {
             value: this.instance.instancePrivateIp
