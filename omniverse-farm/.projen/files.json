@@ -8,7 +8,6 @@
     ".projen/files.json",
     ".projen/tasks.json",
     "cdk.json",
-    "LICENSE",
     "project.json",
     "tsconfig.dev.json",
     "tsconfig.json"

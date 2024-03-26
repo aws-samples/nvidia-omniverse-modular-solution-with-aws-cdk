@@ -8,6 +8,7 @@ const project = new monorepo.MonorepoTsProject({
   name: "nvidia-omniverse-on-aws",
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
+  licensed: false,
 });
 
 const params = {
@@ -49,7 +50,8 @@ const params = {
     "/config/*",
     "*.config.json",
   ],
-  packageManager: javascript.NodePackageManager.PNPM
+  packageManager: javascript.NodePackageManager.PNPM,
+  licensed: false,
 };
 
 const shared = new TypeScriptProject({

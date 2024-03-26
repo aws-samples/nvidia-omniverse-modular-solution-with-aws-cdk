@@ -1,5 +1,11 @@
 import { App, RemovalPolicy } from 'aws-cdk-lib';
-import { NucleusStack, WorkstationStack, SubnetCollection, SecurityGroupCollection, NucleusVpcStack } from 'omniverse-shared';
+import {
+  NucleusStack,
+  WorkstationStack,
+  NucleusVpcStack,
+  SubnetCollection,
+  SecurityGroupCollection,
+} from 'omniverse-shared';
 import config from './config/app.config.json';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 

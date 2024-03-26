@@ -48,7 +48,7 @@ export class GoldenWorkstationResources extends Construct {
 
         // lookup windows server 2022 ami as base for ov workstation image
         const machineImage = ec2.MachineImage.lookup({
-            name: 'Windows_Server-2022-English-Full-Base-2023.10.11',
+            name: 'Windows_Server-2022-English-Full-Base-2024.03.13',
             windows: true,
             owners: ['801119661308']
         });
@@ -86,15 +86,15 @@ export class GoldenWorkstationResources extends Construct {
          */
         new CfnOutput(this, 'WorkstationKeyPairId', {
             value: keyPairId,
-        }).exportName = 'GoldenWorkstationKeyPairId';
+        }).exportName = 'omniverse-golden-workstation-key-pair-id';
 
         new CfnOutput(this, 'WorkstationKeyPairName', {
             value: keyPair.keyName,
-        }).exportName = 'GoldenWorkstationKeyPairName';
+        }).exportName = 'omniverse-golden-workstation-key-pair-name';
 
-        new CfnOutput(this, `${props.stackName}-omniverse-workstation-base-ip`, {
+        new CfnOutput(this, 'WorkstationBaseIp', {
             value: this.instance.instancePrivateIp
-        });
+        }).exportName = 'omniverse-golden-workstation-base-ip';
 
         /**
          * CDK_NAG (security scan) suppressions

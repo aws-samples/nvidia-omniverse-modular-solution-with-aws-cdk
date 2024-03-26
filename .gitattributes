@@ -13,7 +13,6 @@
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
 /.syncpackrc.json linguist-generated
-/LICENSE linguist-generated
 /nx.json linguist-generated
 /package.json linguist-generated
 /pnpm-lock.yaml linguist-generated

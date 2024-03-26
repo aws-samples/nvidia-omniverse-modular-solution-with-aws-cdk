@@ -10,9 +10,9 @@ export interface VpcStackProps extends StackProps {
 }
 
 export class VpcStack extends Stack {
-    public vpc: ec2.Vpc | undefined; // TODO: convert to property with getter and setter
-    public subnets: SubnetCollection | undefined; // TODO: convert to property with getter and setter
-    public securityGroups: SecurityGroupCollection | undefined; // TODO: convert to property with getter and setter
+    public vpc: ec2.Vpc | undefined;
+    public subnets: SubnetCollection | undefined;
+    public securityGroups: SecurityGroupCollection | undefined;
 
     protected readonly cidrRange: string = '192.0.0.0/16'; // TODO: move to vpc config
 

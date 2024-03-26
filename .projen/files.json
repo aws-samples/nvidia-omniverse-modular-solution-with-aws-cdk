@@ -12,7 +12,6 @@
     ".projen/files.json",
     ".projen/tasks.json",
     ".syncpackrc.json",
-    "LICENSE",
     "nx.json",
     "pnpm-workspace.yaml",
     "tsconfig.dev.json",

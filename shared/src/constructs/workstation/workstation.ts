@@ -56,7 +56,7 @@ export class WorkstationResources extends Construct {
         });
 
         // key pair for instance access
-        const keyPairName = Fn.importValue('GoldenWorkstationKeyPairName');
+        const keyPairName = Fn.importValue('omniverse-golden-workstation-key-pair-name');
 
         for (let index = 0; index < props.instanceQuantity; index++) {
             const subnet: ec2.ISubnet = props.subnets[index % props.subnets.length];
