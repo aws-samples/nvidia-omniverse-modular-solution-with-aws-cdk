@@ -47,8 +47,7 @@ const params = {
     "cdk-nag",
   ],
   gitignore: [
-    "/config/*",
-    "*.config.json",
+    "app.config.json",
   ],
   packageManager: javascript.NodePackageManager.PNPM,
   licensed: false,

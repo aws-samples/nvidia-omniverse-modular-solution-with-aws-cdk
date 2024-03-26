@@ -1,0 +1,31 @@
+{
+  "name": "omni",
+  "env": {
+    "account": "ACCOUNT_ID",
+    "region": "AWS_REGION"
+  },
+  "availabilityZones": 2,
+  "removalPolicy": "destroy",
+  "autoDelete": true,
+  "cdkNag": false,
+  "stacks": {
+    "vpc": {
+      "name": "vpc",
+      "allowedRanges": ["CIDR_RANGE"]
+    },
+    "workstation": {
+      "name": "workstation",
+      "jumpboxInstanceType": "t4g.small",
+      "workstationAmiName": "WORKSTATION_AMI_NAME",
+      "workstationAmiId": "WORKSTATION_AMI_ID",
+      "workstationInstanceType": "g5.2xlarge",
+      "workstationQuantity": 2
+    },
+    "nucleus": {
+      "name": "nucleus",
+      "rootDomain": "ROOT_DOMAIN",
+      "nucleusSubdomain": "nucleus",
+      "nucleusBuild": "NUCLEUS_BUILD"
+    }
+  }
+}
