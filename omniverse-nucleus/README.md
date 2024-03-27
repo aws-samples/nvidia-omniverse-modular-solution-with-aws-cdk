@@ -89,70 +89,39 @@ style="width:7.49224in;height:5.63514in" />
 - In \`./config\` create a file named \`app.config.json\`. This file is
   used to configure the Stacks on deployment. See the below template for
   the expected schema:
-
-> {
->
-> "name": "omni",
->
-> "env": {
->
-> "account": "ACCOUNT_ID",
->
-> "region": "AWS_REGION"
->
-> },
->
-> "availabilityZones": 2,
->
-> "removalPolicy": "destroy",
->
-> "autoDelete": true,
->
-> "cdkNag": false,
->
-> "stacks": {
->
-> "vpc": {
->
-> "name": "vpc",
->
-> "allowedRanges": \["192.0.0.0/16"\]
->
-> },
->
-> "workstation": {
->
-> "name": "workstation",
->
-> "jumpboxInstanceType": "t4g.small",
->
-> "workstationAmiName": GOLDEN_AMI_NAME,
->
-> "workstationAmiId": GOLDEN_AMI_ID,
->
-> "workstationInstanceType": "g5.2xlarge",
->
-> "workstationQuantity": 2
->
-> },
->
-> "nucleus": {
->
-> "name": "nucleus",
->
-> "rootDomain": ROOT_DOMAIN,
->
-> "nucleusSubdomain": "nucleus",
->
-> "nucleusBuild":
-> "nucleus-stack-2023.1.0+tag-2023.1.0.gitlab.8633670.7f07353a"
->
-> }
->
-> }
->
-> }
-
+```
+{
+  "name": "omni",
+  "env": {
+    "account": "ACCOUNT_ID",
+    "region": "AWS_REGION"
+  },
+  "availabilityZones": 2,
+  "removalPolicy": "destroy",
+  "autoDelete": true,
+  "cdkNag": false,
+  "stacks": {
+    "vpc": {
+      "name": "vpc",
+      "allowedRanges": ["CIDR_RANGE"]
+    },
+    "workstation": {
+      "name": "workstation",
+      "jumpboxInstanceType": "t4g.small",
+      "workstationAmiName": "WORKSTATION_AMI_NAME",
+      "workstationAmiId": "WORKSTATION_AMI_ID",
+      "workstationInstanceType": "g5.2xlarge",
+      "workstationQuantity": 2
+    },
+    "nucleus": {
+      "name": "nucleus",
+      "rootDomain": "ROOT_DOMAIN",
+      "nucleusSubdomain": "nucleus",
+      "nucleusBuild": "NUCLEUS_BUILD"
+    }
+  }
+}
+```
 ### Step 3 – Installing Dependencies and Bootstrapping AWS
 
 - Install the dependency packages for the project. From your CLI run:
