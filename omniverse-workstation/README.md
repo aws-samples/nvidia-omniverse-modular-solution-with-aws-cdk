@@ -67,51 +67,29 @@ style="width:7.08784in;height:6.98573in" />
     is used to configure the Stacks on deployment. See the below
     template for the expected schema:
 ```
-    {
-
-    "name": "omni",
-
-    "env": {
-
+{
+  "name": "omni",
+  "env": {
     "account": "ACCOUNT_ID",
-
     "region": "AWS_REGION"
-
-    },
-
-    "availabilityZones": 2,
-
-    "removalPolicy": "destroy",
-
-    "autoDelete": true,
-
-    "cdkNag": false,
-
-    "stacks": {
-
+  },
+  "availabilityZones": 2,
+  "removalPolicy": "destroy",
+  "autoDelete": true,
+  "cdkNag": false,
+  "stacks": {
     "vpc": {
-
-    "name": "vpc",
-
-    "allowedRanges": \["CIDR_RANGE"\]
-
+      "name": "vpc",
+      "allowedRanges": ["CIDR_RANGE"]
     },
-
     "workstation": {
-
-    "name": "workstation",
-
-    "jumpboxInstanceType": "t4g.small",
-
-    "workstationInstanceType": "g5.2xlarge",
-
-    "workstationQuantity": 1
-
+      "name": "workstation",
+      "jumpboxInstanceType": "t4g.small",
+      "workstationInstanceType": "g5.2xlarge",
+      "workstationQuantity": 1
     }
-
-    }
-
-    }
+  }
+}
 ```
 - **Installing Dependencies and Bootstrapping AWS**
 
