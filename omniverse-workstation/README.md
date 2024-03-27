@@ -66,7 +66,7 @@ style="width:7.08784in;height:6.98573in" />
   - In \`./config\` create a file named \`app.config.json\`. This file
     is used to configure the Stacks on deployment. See the below
     template for the expected schema:
-
+```
     {
 
     "name": "omni",
@@ -112,7 +112,7 @@ style="width:7.08784in;height:6.98573in" />
     }
 
     }
-
+```
 - **Installing Dependencies and Bootstrapping AWS**
 
   - Install the dependency packages for the project. From your CLI run:
