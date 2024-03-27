@@ -19,11 +19,10 @@ Image (AMI), that have access to the Nucleus instance.
 - [Instructions](#instructions)
 
   - [Step 1 –
-    Downloading](#step-1-downloading-nucleus-artifacts-from-nvidia)
-    Nucleus Artifacts from NVIDIA
+    Downloading Nucleus Artifacts from NVIDIA](#step-1-downloading-nucleus-artifacts-from-nvidia)
+    
 
-  - [Step 2 – Configuring](#_2/_Retrieve_Administrator) the AWS CDK
-    Project
+  - [Step 2 – Configuring the AWS CDK Project](#_2/_Retrieve_Administrator) 
 
   - [Step 3 – Installing Dependencies and Bootstrapping AWS](#_Step_3_–)
 
@@ -33,8 +32,7 @@ Image (AMI), that have access to the Nucleus instance.
 
 - [Troubleshooting](#troubleshooting)
 
-  - [Unable to connect to the Nucleus
-    Server](#unable-to-connect-to-the-nucleus-server) NVIDIA
+  - [Unable to connect to the Nucleus Server](#unable-to-connect-to-the-nucleus-server)
 
   - [No service log entries, or unable to restart nitro-enclave
     service](#no-service-log-entries-or-unable-to-restart-nitro-enclave-service)
