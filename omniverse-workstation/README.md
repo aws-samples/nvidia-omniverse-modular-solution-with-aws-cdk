@@ -1,18 +1,19 @@
-# NVIDIA Omniverse base Workstation installation and setup
+# NVIDIA Omniverse base Windows Workstation installation and setup
 
 A guide to create a golden Amazon Machine Image (AMI). Last updated on
-11/2023.
+03/2024.
 
 ## Overview
 
-This guide includes steps to create a “golden” AMI for use to launch
-Omniverse Workstation EC2 instances. This module can be deployed in a
-single instance evaluation and included in more complex deployments.
+This guide includes steps to create a “golden” AMI for use to launch a
+Windows Omniverse Workstation EC2 instances. This module can be deployed
+in a single instance evaluation and included in more complex
+deployments.
 
 ## Contents
 
 - [Step 1 - Deploy VPC CloudFormation (CFN)
-  template](#step-1-deploy-vpc-cloudformation-cfn-template)
+  template](#step-1-configure-the-aws-cdk-project-install-dependencies-and-deploy-the-stack)
 
 - [Step 2 - Retrieve Administrator password for the EC2
   instance](#step-2-retrieve-administrator-password-for-the-ec2-instance)
@@ -53,39 +54,90 @@ Omniverse Workstation.
 
 ## Architecture
 
-<img src="./media/image1.jpeg" style="width:7.49509in;height:4.69in" />
+<img src="./media/image1.jpeg"
+style="width:7.08784in;height:6.98573in" />
 
 ## Instructions
 
-### Step 1 - Deploy VPC CloudFormation (CFN) template
+### Step 1 – Configure the AWS CDK Project, install dependencies, and deploy the stack
 
-- Navigate to the **CloudFormation Console**
+- **Configure the AWS CDK Project**
 
-- Deploy the CFN template *omniverse-workstation.yaml* and enter the
-  following parameters
+  - In \`./config\` create a file named \`app.config.json\`. This file
+    is used to configure the Stacks on deployment. See the below
+    template for the expected schema:
 
-  - <u>Stack name:</u> omniverse
+    {
 
-  - <u>Availability Zones:</u> Select one within the current Region
+    "name": "omni",
 
-  - <u>VPC CIDR:</u> Enter the first two octets of the VPC CIDR block
+    "env": {
 
-  - <u>Endpoint device IP:</u> Enter the public IP of the endpoint
-    device that will be used to connect to the Windows Server instance
+    "account": "ACCOUNT_ID",
 
-  - <u>Omniverse Workstation Instance Size:</u> Select the best match or
-    use the default
+    "region": "AWS_REGION"
 
-  - <u>Jumpbox Instance Size:</u> Select the best match or use the
-    default
+    },
 
-  - NOTE: the CFN template will take about 5 minutes to deploy.
+    "availabilityZones": 2,
 
-  - NOTE: there is a post-CFN setup process that will take about 15
-    minutes before the Workstation is available.
+    "removalPolicy": "destroy",
 
-- NOTE: there is an installation log located in
-  C:\Users\Administrator\Documents\setup_verification_log.txt
+    "autoDelete": true,
+
+    "cdkNag": false,
+
+    "stacks": {
+
+    "vpc": {
+
+    "name": "vpc",
+
+    "allowedRanges": \["CIDR_RANGE"\]
+
+    },
+
+    "workstation": {
+
+    "name": "workstation",
+
+    "jumpboxInstanceType": "t4g.small",
+
+    "workstationInstanceType": "g5.2xlarge",
+
+    "workstationQuantity": 1
+
+    }
+
+    }
+
+    }
+
+- **Installing Dependencies and Bootstrapping AWS**
+
+  - Install the dependency packages for the project. From your CLI run:
+    npm install
+
+  - Build the shared dependency package. From your CLI run: nx run
+    omniverse-shared:build
+
+  - To prepare your AWS account for the CDK application start by
+    bootstrapping: cdk bootstrap \<ACCOUNT_ID\>/\<AWS_REGION\>
+
+  - Once that is complete, synthesize the CDK application to verify the
+    configuration is correct: cdk synth
+
+- **Deploy the Stack**
+
+  - Now, deploy the stacks to create the VPC, networking resources,
+    Jumpbox, and Omniverse Workstation: cdk deploy --all
+
+  - If you changed the names of the stacks or application in the
+    app.config.json this step will be in the form of: \`cdk deploy
+    \<config.name\>-\<config.stacks.infra.name\>\`
+
+    - Note: It can take 15-20 minutes for all resources to be
+      provisioned and in the running state.
 
 ### Step 2 - Retrieve Administrator password for the EC2 instance
 
