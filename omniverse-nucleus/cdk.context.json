@@ -17,5 +17,6 @@
   "ami:account=070483837758:filters.image-id.0=ami-0399792fec63ccd13:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-0399792fec63ccd13",
   "ami:account=070483837758:filters.image-id.0=ami-035a58ca2305e3244:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-035a58ca2305e3244",
   "ami:account=070483837758:filters.image-id.0=ami-01ce2dc7ae2b7a13e:filters.image-type.0=machine:filters.name.0=omni-golden-workstation-ami:filters.state.0=available:region=us-west-2": "ami-01ce2dc7ae2b7a13e",
-  "ami:account=070483837758:filters.image-id.0=ami-03a6a05a5e31f5696:filters.image-type.0=machine:filters.name.0=omniverse-golden-workstation-ami:filters.state.0=available:region=us-west-2": "ami-03a6a05a5e31f5696"
+  "ami:account=070483837758:filters.image-id.0=ami-03a6a05a5e31f5696:filters.image-type.0=machine:filters.name.0=omniverse-golden-workstation-ami:filters.state.0=available:region=us-west-2": "ami-03a6a05a5e31f5696",
+  "ami:account=070483837758:filters.image-id.0=ami-014f08034ea865d9c:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-014f08034ea865d9c"
 }
