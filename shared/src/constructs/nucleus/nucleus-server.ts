@@ -127,10 +127,10 @@ export class NucleusServerResources extends Construct {
             detailedMonitoring: true,
             requireImdsv2: true,
         });
-        this.nucleusServer.applyRemovalPolicy(props.removalPolicy);
-        Tags.of(this.nucleusServer).add('Name', standbyInstanceName);
-        Tags.of(this.nucleusServer).add('InstanceType', 'nucleus');
-        Tags.of(this.nucleusServer).add('Nucleus', 'standby');
+        standbyInstance.applyRemovalPolicy(props.removalPolicy);
+        Tags.of(standbyInstance).add('Name', standbyInstanceName);
+        Tags.of(standbyInstance).add('InstanceType', 'nucleus');
+        Tags.of(standbyInstance).add('Nucleus', 'standby');
 
         /**
          * CUSTOM RESOURCE - Nucleus Server Config
