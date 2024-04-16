@@ -11,7 +11,6 @@ export interface WorkstationFleetStackProps extends BaseStackProps {
   securityGroups: SecurityGroupCollection;
   availabilityZones: number;
   jumpboxInstanceType: string;
-  workstationAmiName: string;
   workstationAmiId: string;
   workstationInstanceType: string;
   workstationQuantity: number;
@@ -50,7 +49,6 @@ export class WorkstationFleetStack extends Stack {
       vpc: props.vpc,
       subnets: props.subnets.workstation as ec2.ISubnet[],
       securityGroup: props.securityGroups.workstation as ec2.SecurityGroup,
-      amiName: props.workstationAmiName,
       amiId: props.workstationAmiId,
       instanceType: props.workstationInstanceType,
       instanceQuantity: props.availabilityZones,

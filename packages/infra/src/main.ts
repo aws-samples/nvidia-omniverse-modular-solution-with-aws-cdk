@@ -98,7 +98,7 @@ if (stackConfigurator.WorkstationAmi) {
   * * Construct - Workstation
   */
 if (stackConfigurator.WorkstationFleet) {
-  if (!config.stacks.fleet.workstationAmiId || !config.stacks.fleet.workstationAmiName) {
+  if (!config.stacks.fleet.workstationAmiId) {
     throw new Error("Workstation AMI ID and Name must be defined in config.json to deploy the Workstation Fleet Stack." +
       "If you have not deployed the Workstation Golden AMI Stack, please first deploy that stack and follow instructions on creating a workstation AMI.");
   }

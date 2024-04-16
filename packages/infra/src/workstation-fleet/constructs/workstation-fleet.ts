@@ -10,7 +10,6 @@ export interface WorkstationResourcesProps {
   vpc: ec2.Vpc;
   subnets: ec2.ISubnet[];
   securityGroup: ec2.SecurityGroup;
-  amiName: string;
   amiId: string;
   instanceType: string;
   instanceQuantity: number;
