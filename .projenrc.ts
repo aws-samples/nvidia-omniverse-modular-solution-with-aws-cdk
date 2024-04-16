@@ -1,23 +1,25 @@
 import { javascript } from "projen";
 import { monorepo } from "@aws/pdk";
 import { AwsCdkTypeScriptApp } from "projen/lib/awscdk";
-import { TypeScriptProject } from "projen/lib/typescript";
+import { NodeProject } from "projen/lib/javascript";
 
 const project = new monorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
-  name: "nvidia-omniverse-on-aws",
-  packageManager: javascript.NodePackageManager.PNPM,
+  name: "rebuild-nvidia-omniverse-on-aws",
+  packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
-  licensed: false,
+  license: "MIT-0",
+  copyrightOwner: "Amazon.com, Inc."
 });
 
 const params = {
-  author: "Kellan Cartledge",
+  author: "AWS NVIDIA Omniverse Spatial Technical Advisory Council (STAC)",
   authorAddress: "kccartle@amazon.com",
-  repositoryUrl: "https://gitlab.aws.dev/stac-nvidia-omniverse-council/nvidia-omniverse-on-aws",
+  repositoryUrl:
+    "https://gitlab.aws.dev/stac-nvidia-omniverse-council/nvidia-omniverse-on-aws",
   defaultReleaseBranch: "main",
   parent: project,
-  cdkVersion: "2.102.0",
+  cdkVersion: "2.130.0",
   entrypoint: "dist/index.js",
   entrypointTypes: "dist/index.d.ts",
   eslint: true,
@@ -27,6 +29,7 @@ const params = {
     prettier: true,
   },
   jest: false,
+  licensed: false,
   tsconfig: {
     compilerOptions: {
       rootDir: "src",
@@ -39,62 +42,53 @@ const params = {
       moduleResolution: javascript.TypeScriptModuleResolution.NODE,
     },
     include: ["src"],
-    exclude: ["cdk.out", "dist", "node_modules", "tst", "scripts"]
+    exclude: ["cdk.out", "dist", "node_modules", "tst", "scripts"],
   },
+
+  packageManager: javascript.NodePackageManager.NPM,
+};
+
+/**
+ * Deployment Tool
+ */
+const deploy = new NodeProject({
+  name: "omniverse-deploy",
+  outdir: "packages/deploy",
+  packageName: "omniverse-aws",
+  description: "Command line tool for deploying NVIDIA Omniverse resources on AWS",
+  bin: {
+    "omniverse-aws": "bin/index.js"
+  },
+  deps: [
+    "meow",
+    "inquirer",
+    "@inquirer/checkbox",
+    "@inquirer/input",
+    "@inquirer/select",
+    "inquirer-file-tree-selection-prompt",
+    "chalk",
+    "file-dialog",
+    "node-file-dialog"
+  ],
+  ...params,
+});
+deploy.addFields({ type: "module" });
+
+/**
+ * AWS Infrastructure for NVIDIA Omniverse
+ */
+new AwsCdkTypeScriptApp({
+  name: "omniverse-infra",
+  outdir: "packages/infra",
   deps: [
     "aws-cdk-lib",
     "constructs",
     "cdk-nag",
+    "@aws-cdk/aws-lambda-python-alpha"
   ],
-  gitignore: [
-    "app.config.json",
-  ],
-  packageManager: javascript.NodePackageManager.PNPM,
-  licensed: false,
-};
-
-const shared = new TypeScriptProject({
-  name: "omniverse-shared",
-  outdir: "shared",
-  ...params
-});
-shared.addDeps(
-  '@aws-cdk/aws-lambda-python-alpha'
-);
-shared.addGitIgnore('shared/src/tools/nucleusServer/stack/');
-shared.addGitIgnore('nucleus-stack-*');
-
-// Omniverse Workstation CDK App
-const workstation = new AwsCdkTypeScriptApp({
-  name: "omniverse-workstation",
-  outdir: "omniverse-workstation",
-  ...params
-});
-workstation.addDeps(shared.package.packageName);
-
-// Omniverse Nucleus CDK App
-const nucleus = new AwsCdkTypeScriptApp({
-  name: "omniverse-nucleus",
-  outdir: "omniverse-nucleus",
-  ...params
-});
-nucleus.addDeps(shared.package.packageName);
-nucleus.addGitIgnore("/stack/*");
-
-// Omniverse Nucleus Cache CDK App
-const cache = new AwsCdkTypeScriptApp({
-  name: "omniverse-nucleus-cache",
-  outdir: "omniverse-nucleus-cache",
-  ...params
-});
-cache.addDeps(shared.package.packageName);
-
-// Omniverse Nucleus Cache CDK App
-const farm = new AwsCdkTypeScriptApp({
-  name: "omniverse-farm",
-  outdir: "omniverse-farm",
+  gitignore: ["/config/*", "*.config.json"],
   ...params,
 });
-farm.addDeps(shared.package.packageName);
+
 
 project.synth();

@@ -5,7 +5,7 @@
       "description": "Full release build for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=build --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=build --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -47,7 +47,7 @@
       "description": "Only compile for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=compile --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=compile --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -78,7 +78,7 @@
       "description": "Runs eslint against the codebase for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=eslint --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=eslint --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -88,7 +88,7 @@
       "description": "Generate dependency graph for monorepo",
       "steps": [
         {
-          "exec": "pnpm exec nx graph",
+          "exec": "npx nx graph",
           "receiveArgs": true
         }
       ]
@@ -98,7 +98,7 @@
       "description": "Install project dependencies and update lockfile (non-frozen)",
       "steps": [
         {
-          "exec": "pnpm i --no-frozen-lockfile"
+          "exec": "npm install --legacy-peer-deps"
         }
       ]
     },
@@ -107,7 +107,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "pnpm i --frozen-lockfile"
+          "exec": "npm ci --legacy-peer-deps"
         }
       ]
     },
@@ -116,7 +116,7 @@
       "description": "Creates the distribution package for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=package --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=package --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -126,7 +126,7 @@
       "description": "Runs after successful compilation for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=post-compile --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=post-compile --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -140,7 +140,7 @@
       "description": "Prepare the project for compilation for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=pre-compile --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=pre-compile --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -150,7 +150,7 @@
       "description": "Run task against multiple workspace projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many",
+          "exec": "npx nx run-many",
           "receiveArgs": true
         }
       ]
@@ -160,7 +160,7 @@
       "description": "Run tests for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=test --output-style=stream --nx-bail",
+          "exec": "npx nx run-many --target=test --output-style=stream --nx-bail",
           "receiveArgs": true
         }
       ]
@@ -173,19 +173,16 @@
       },
       "steps": [
         {
-          "exec": "pnpm update npm-check-updates"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws/pdk,eslint-config-prettier,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,npm-check-updates,prettier,ts-node,typescript,@aws-cdk/aws-cognito-identitypool-alpha,aws-cdk-lib,cdk-nag"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws/pdk,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,nx,prettier,projen,syncpack,ts-node,typescript,aws-cdk-lib,cdk-nag,constructs"
+          "exec": "npm install"
         },
         {
-          "exec": "pnpm i --no-frozen-lockfile"
+          "exec": "npm update @aws/pdk @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser constructs eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates nx prettier projen syncpack ts-node typescript @aws-cdk/aws-cognito-identitypool-alpha aws-cdk-lib cdk-nag"
         },
         {
-          "exec": "pnpm update @aws/pdk @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates nx prettier projen syncpack ts-node typescript aws-cdk-lib cdk-nag constructs"
-        },
-        {
-          "exec": "pnpm exec projen"
+          "exec": "npx projen"
         },
         {
           "spawn": "post-upgrade"
@@ -194,18 +191,22 @@
     },
     "upgrade-deps": {
       "name": "upgrade-deps",
+      "description": "Upgrade dependencies in the monorepo",
       "steps": [
         {
-          "exec": "pnpm exec npm-check-updates --deep --rejectVersion 0.0.0 -u --dep prod,dev,peer,optional,bundle --target=minor"
+          "exec": "npx npm-check-updates --deep --rejectVersion 0.0.0 -u --dep prod,dev,peer,optional,bundle --target=minor"
         },
         {
-          "exec": "pnpm exec syncpack fix-mismatches"
+          "exec": "npx syncpack fix-mismatches"
         },
         {
-          "exec": "pnpm i"
+          "exec": "rm package-lock.json"
         },
         {
-          "exec": "pnpm exec projen"
+          "exec": "npm install"
+        },
+        {
+          "exec": "npx projen"
         }
       ]
     },
@@ -214,14 +215,14 @@
       "description": "Watch & compile in the background for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=watch --output-style=stream --skip-nx-cache --nx-ignore-cycles --nx-bail",
+          "exec": "npx nx run-many --target=watch --output-style=stream --skip-nx-cache --nx-ignore-cycles --nx-bail",
           "receiveArgs": true
         }
       ]
     }
   },
   "env": {
-    "PATH": "$(pnpm -c exec \"node --print process.env.PATH\")"
+    "PATH": "$(npx -c \"node --print process.env.PATH\")"
   },
-  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"pnpm exec projen\"."
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
 }
