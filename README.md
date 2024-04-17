@@ -13,11 +13,12 @@ Omniverse engages everyone involved in the lifecycle of 3D data with access to h
 - [License](#license)
 
 ## Architecture
+![reference-architecture](./docs/overall/media/image1.jpg)
 
 ## Packages
 1. [Omniverse Workstations](./docs/omniverse-workstation/README.md)
 2. [Omniverse Nucleus](./docs/omniverse-nucleus/README.md)
-ß
+
 ## License
 This code is licensed under the MIT-0 License. For more information, see the [LICENSE](./LICENSE)
 
