@@ -1,0 +1,8 @@
+{
+  "name": "Nucleus",
+  "rootDomain": "",
+  "nucleusSubdomain": "nucleus",
+  "nucleusBuild": "",
+  "internetFacing": false,
+  "publicCertificateArn": ""
+}
