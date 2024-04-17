@@ -30,6 +30,7 @@ jspm_packages/
 .cache
 /config/*
 *.config.json
+*.tar.gz
 !/test/
 !/tsconfig.json
 !/tsconfig.dev.json

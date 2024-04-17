@@ -44,7 +44,6 @@ const params = {
     include: ["src"],
     exclude: ["cdk.out", "dist", "node_modules", "tst", "scripts"],
   },
-
   packageManager: javascript.NodePackageManager.NPM,
 };
 
@@ -86,7 +85,7 @@ new AwsCdkTypeScriptApp({
     "cdk-nag",
     "@aws-cdk/aws-lambda-python-alpha"
   ],
-  gitignore: ["/config/*", "*.config.json"],
+  gitignore: ["/config/*", "*.config.json", "*.tar.gz"],
   ...params,
 });
 

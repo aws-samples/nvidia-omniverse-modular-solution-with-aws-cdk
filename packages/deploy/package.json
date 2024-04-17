@@ -2,7 +2,11 @@
   "name": "omniverse-aws",
   "description": "Command line tool for deploying NVIDIA Omniverse resources on AWS",
   "bin": {
-    "omniverse-aws": "bin/index.js"
+    "index.js": "bin/index.js",
+    "nucleus": "bin/nucleus",
+    "omniverse-aws": "bin/index.js",
+    "vpc": "bin/vpc",
+    "workstation": "bin/workstation"
   },
   "scripts": {
     "build": "npx projen build",
