@@ -58,7 +58,7 @@ const app = new App();
 console.info(`> App Path: ${app.node.path}`);
 
 const stackConfigurator = new StackConfigurator(app.node.tryGetContext("stacks"));
-console.info(`>>> Using Stacks: ${JSON.stringify(stackConfigurator, null, 2)}`);
+console.info(`>>> Deploying Stacks: ${JSON.stringify(stackConfigurator, null, 2)}`);
 
 /**
  * VPC Stack
