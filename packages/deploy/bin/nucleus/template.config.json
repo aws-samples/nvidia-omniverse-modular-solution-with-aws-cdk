@@ -1,5 +1,6 @@
 {
   "name": "Nucleus",
+  "deployed": false,
   "rootDomain": "",
   "nucleusSubdomain": "nucleus",
   "nucleusBuild": "",

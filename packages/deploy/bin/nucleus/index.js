@@ -89,6 +89,7 @@ const requirements = {
         })
       : "";
   },
+  deployed: () => true,
 };
 
 export const configure = async () => {

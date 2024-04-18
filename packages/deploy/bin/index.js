@@ -6,6 +6,9 @@ import input from "@inquirer/input";
 import select from "@inquirer/select";
 
 import { execSync } from "node:child_process";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 import {
   configure as configureNucleus,
@@ -30,9 +33,11 @@ import {
   getWorkstationsAMIReadme,
   writeConfigFile,
 } from "./utils.js";
-import { exec } from "child_process";
 
-const appConfig = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let appConfig = {
   name: "Omni",
   env: {
     account: "",
@@ -112,6 +117,11 @@ const verifyDeployment = async (projectsToDeploy) => {
   });
 };
 
+/**
+ * Runs the CDK deployment process
+ * @param {*} cdkConfigured
+ * @param {*} projectsToDeploy
+ */
 const runDeployment = async (cdkConfigured, projectsToDeploy) => {
   if (!cdkConfigured) {
     execSync("cdk bootstrap", {
@@ -136,6 +146,22 @@ const runDeployment = async (cdkConfigured, projectsToDeploy) => {
   });
 };
 
+/**
+ * Iterates the project requirements prompting user with data input fields
+ */
+const runProjectConfiguration = async (projectsToDeploy) => {
+  for (const key of projectsToDeploy) {
+    const [k, template] = Object.entries(configurationTemplates).find(
+      ([_, v]) => key.includes(v.name),
+    );
+    appConfig.stacks[k] = await template["config"]();
+  }
+};
+
+/**
+ * Deploy command logic
+ * @returns
+ */
 const onDeploy = async () => {
   console.log(
     chalk.bold(
@@ -151,19 +177,10 @@ const onDeploy = async () => {
     ),
   );
 
-  let projectsToConfig = {
-    useExisting: [],
-    createNew: [],
-  };
-
   const projectsToDeploy = await checkbox({
     message: `Select ${chalk.yellow("one or more")} projects to deploy:`,
     required: true,
     choices: [
-      {
-        name: "NVIDIA Omniverse Nucleus Enterprise",
-        value: "nucleus",
-      },
       {
         name: "NVIDIA Omniverse Workstation AMI",
         value: "workstation-ami",
@@ -172,12 +189,16 @@ const onDeploy = async () => {
         name: "NVIDIA Omniverse Workstation Fleet",
         value: "workstation-fleet",
       },
+      {
+        name: "NVIDIA Omniverse Enterprise Nucleus",
+        value: "nucleus",
+      },
     ],
   });
 
   if (configFileExists()) {
-    const useExisting = await select({
-      message: `Use existing config file?`,
+    const updateExisting = await select({
+      message: `Update existing config file?`,
       choices: [
         {
           name: "Yes",
@@ -190,11 +211,56 @@ const onDeploy = async () => {
       ],
     });
 
-    if (useExisting) {
+    if (updateExisting) {
+      // load previous config
+      appConfig = JSON.parse(
+        fs.readFileSync(
+          new URL(
+            path.resolve(__dirname, `../../infra/src/config/infra.config.json`),
+            import.meta.url,
+          ),
+        ),
+      );
+
+      // get list of previously deployed
+      const previousProjects = Object.entries(appConfig.stacks)
+        .filter((value) => value[1].deployed)
+        .map((value) => {
+          return value[0];
+        });
+
+      console.log("Previously Deployed: ", JSON.stringify(previousProjects));
+
+      // configure newly selected project
+      // TODO: create a data structure to better handle project names
+      // TODO: switch from 'project' to 'module'
+      const newProjects = projectsToDeploy.filter((project) => {
+        return !previousProjects.includes(
+          Object.values(configurationTemplates).find((template) => {
+            return template.name.includes(project);
+          }).name,
+        );
+      });
+
+      console.log("Configuring New: ", JSON.stringify(newProjects));
+      await runProjectConfiguration(newProjects);
+
+      // add previously deployed to list of projects to deploy
+      for (const previous in previousProjects) {
+        if (
+          configurationTemplates[previous] &&
+          !projectsToDeploy.includes(configurationTemplates[previous].name)
+        ) {
+          projectsToDeploy.push(configurationTemplates[previous].name);
+        }
+      }
+
+      // prompt user with deployment verification
       if (!(await verifyDeployment(projectsToDeploy))) {
         process.exit(1);
       }
 
+      // do the deployment
       await runDeployment(true, projectsToDeploy);
       return 0;
     }
@@ -228,11 +294,13 @@ const onDeploy = async () => {
 
   // set config defaults for all stacks
   for (const [key, value] of Object.entries(configurationTemplates)) {
+    if (projectsToDeploy.includes(key)) continue;
     appConfig.stacks[key] = await value["default"]();
   }
 
   appConfig.stacks.vpc = getVpcDefault();
 
+  // TODO: turn goldenAMI prompt into a function
   if (projectsToDeploy.includes("workstation-fleet")) {
     const goldenAMIDeployed = await select({
       message: `You have selected Omniverse Workstation Fleet for deployment. Have you already deployed the Workstation AMI?`,
@@ -264,19 +332,18 @@ const onDeploy = async () => {
   // always required
   appConfig.stacks.vpc = await configureVpc();
 
-  for (const key of projectsToDeploy) {
-    const [k, template] = Object.entries(configurationTemplates).find(
-      ([_, v]) => key.includes(v.name),
-    );
-    appConfig.stacks[k] = await template["config"]();
-  }
+  // run config requirements for each project
+  await runProjectConfiguration(projectsToDeploy);
 
+  // write new config file to infra.config.json
   writeConfigFile(appConfig);
 
+  // prompt user with deployment verification
   if (!(await verifyDeployment(projectsToDeploy))) {
     process.exit(1);
   }
 
+  // do the deployment
   await runDeployment(cdkConfigured, projectsToDeploy);
 };
 

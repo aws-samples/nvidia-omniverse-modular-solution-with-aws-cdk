@@ -1,5 +1,6 @@
 {
   "name": "Fleet",
+  "deployed": false,
   "jumpboxInstanceType": "t4g.small",
   "workstationAmiId": "",
   "workstationInstanceType": "g5.2xlarge",

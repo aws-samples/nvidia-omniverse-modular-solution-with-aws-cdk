@@ -10,6 +10,7 @@ const template = JSON.parse(
 
 const requirements = {
   workstationInstanceType: async () => await select(workstationTypesPrompt),
+  deployed: () => true,
 };
 
 export const configure = async () => {

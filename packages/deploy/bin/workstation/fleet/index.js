@@ -20,6 +20,7 @@ const requirements = {
     return parseInt(value, 10);
   },
   workstationInstanceType: async () => await select(workstationTypesPrompt),
+  deployed: () => true,
 };
 
 export const configure = async () => {

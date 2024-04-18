@@ -8,22 +8,6 @@ const template = JSON.parse(
 );
 
 const requirements = {
-  // accessNucleusFromWorkstations: async () => {
-  //   const accessFromWorkstations = await select({
-  //     message:
-  //       "Will you be accessing Nucleus from Workstations in your AWS Account?",
-  //     choices: [
-  //       {
-  //         name: "Yes",
-  //         value: true,
-  //       },
-  //       {
-  //         name: "No, I will be accessing from on-prem workstations",
-  //         value: false,
-  //       },
-  //     ],
-  //   });
-  // },
   allowedRanges: async () => {
     const ranges = await input({
       message:
@@ -32,6 +16,7 @@ const requirements = {
 
     return ranges.split(",").map((range) => range.trim());
   },
+  deployed: () => true,
 };
 
 export const configure = async () => {
