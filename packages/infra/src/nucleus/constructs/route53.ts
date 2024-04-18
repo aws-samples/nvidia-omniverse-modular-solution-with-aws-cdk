@@ -33,12 +33,14 @@ export class Route53Resource extends Construct {
                 zoneName: props.rootDomain,
                 vpc: props.vpc
             });
+            this.hostedZone.applyRemovalPolicy(props.removalPolicy);
 
             this.certificate = new Certificate(this, 'PublicCertificate', {
                 domainName: props.rootDomain,
                 subjectAlternativeNames: [`*.${props.rootDomain}`],
                 validation: CertificateValidation.fromDns(this.hostedZone)
             });
+            this.certificate.applyRemovalPolicy(props.removalPolicy);
         }
     }
 }
