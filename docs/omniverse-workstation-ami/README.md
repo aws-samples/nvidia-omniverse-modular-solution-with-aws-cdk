@@ -53,9 +53,7 @@ Omniverse Workstation.
 5.  NVIDIA Omniverse USD Composer
 
 ## Architecture
-
-<img src="./media/image1.jpeg"
-style="width:7.08784in;height:6.98573in" />
+<img src="./media/image1.jpeg" style="width:7.08784in;height:6.98573in" />
 
 ## Instructions
 

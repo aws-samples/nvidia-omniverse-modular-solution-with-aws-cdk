@@ -66,8 +66,7 @@ Image (AMI), that have access to the Nucleus instance.
 
 ## Architecture
 
-<img src="./media/image1.jpeg"
-style="width:7.49224in;height:5.63514in" />
+<img src="./media/image1.jpeg" style="width:7.49224in;height:5.63514in" />
 
 ## Instructions
 
