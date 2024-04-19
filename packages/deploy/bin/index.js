@@ -29,7 +29,7 @@ import {
 
 import {
   configFileExists,
-  getProjectDirectory,
+  getProjectDirectory as getModuleDirectory,
   getWorkstationsAMIReadme,
   writeConfigFile,
 } from "./utils.js";
@@ -72,8 +72,17 @@ const configurationTemplates = {
   },
 };
 
+// invert configurationTemplate names and keys to simplify configuration process
+const templateInverseLookup = {};
+Object.entries(configurationTemplates).forEach(([k, v]) => {
+  templateInverseLookup[v.name] = k;
+});
+
+/**
+ * Create CLI tool
+ */
 const cli = meow(
-  `This tool helps you deploy your chosen NVIDIA Omniverse projects into your AWS Account.
+  `This tool helps you deploy your chosen NVIDIA Omniverse modules into your AWS Account.
 
 Usage
     $ npx omniverse-aws deploy # choose which resources you wish to deploy into your AWS Account 
@@ -93,7 +102,12 @@ Usage
   },
 );
 
-const verifyDeployment = async (projectsToDeploy) => {
+/**
+ * Prompt user to verify staged modules
+ * @param {string[]} modulesToDeploy
+ * @returns
+ */
+const verifyDeployment = async (modulesToDeploy) => {
   return await select({
     message: chalk.bold(
       chalk.cyan(
@@ -103,8 +117,8 @@ const verifyDeployment = async (projectsToDeploy) => {
       *************************************************************
   
         If your environment was not bootstrapped, we will do that for you now.
-        We will be deploying the following projects:
-        ${projectsToDeploy.join(", ")}
+        We will be deploying the following modules:
+        ${modulesToDeploy.join(", ")}
   
         Proceed?
         `,
@@ -119,10 +133,10 @@ const verifyDeployment = async (projectsToDeploy) => {
 
 /**
  * Runs the CDK deployment process
- * @param {*} cdkConfigured
- * @param {*} projectsToDeploy
+ * @param {boolean} cdkConfigured
+ * @param {string[]} modulesToDeploy
  */
-const runDeployment = async (cdkConfigured, projectsToDeploy) => {
+const runDeployment = async (cdkConfigured, modulesToDeploy) => {
   if (!cdkConfigured) {
     execSync("cdk bootstrap", {
       stdio: "inherit",
@@ -130,32 +144,92 @@ const runDeployment = async (cdkConfigured, projectsToDeploy) => {
   }
 
   execSync("npm i", {
-    cwd: getProjectDirectory(),
+    cwd: getModuleDirectory(),
     stdio: "inherit",
   });
 
   execSync("npm run build", {
-    cwd: getProjectDirectory(),
+    cwd: getModuleDirectory(),
     stdio: "inherit",
   });
 
-  const stacks = projectsToDeploy.join(" ");
+  const stacks = modulesToDeploy.join(" ");
   execSync(`cdk deploy -c stacks="${stacks}" --all --verbose`, {
-    cwd: getProjectDirectory(),
+    cwd: getModuleDirectory(),
     stdio: "inherit",
   });
 };
 
 /**
- * Iterates the project requirements prompting user with data input fields
+ * Iterates the module requirements prompting user with data input fields
  */
-const runProjectConfiguration = async (projectsToDeploy) => {
-  for (const key of projectsToDeploy) {
-    const [k, template] = Object.entries(configurationTemplates).find(
-      ([_, v]) => key.includes(v.name),
-    );
-    appConfig.stacks[k] = await template["config"]();
+const runModuleConfiguration = async (modulesToDeploy) => {
+  for (const module of modulesToDeploy) {
+    const key = templateInverseLookup[module];
+    const template = configurationTemplates[key];
+    appConfig.stacks[key] = await template.config();
   }
+};
+
+/**
+ * Update existing config file
+ * @param {string[]} modulesToDeploy
+ * @returns
+ */
+const onUpdate = async (modulesToDeploy) => {
+  // load previous config
+  appConfig = JSON.parse(
+    fs.readFileSync(
+      new URL(
+        path.resolve(__dirname, `../../infra/src/config/infra.config.json`),
+        import.meta.url,
+      ),
+    ),
+  );
+
+  // get list of previously deployed
+  const previousModules = Object.entries(appConfig.stacks)
+    .filter(([_, v]) => v.deployed)
+    .map((v) => {
+      return v[0];
+    });
+
+  const proceed = await select({
+    message: `It looks like you have previously deployed modules: ${chalk.yellow(modulesToDeploy.join(", "))}. Is that correct?`,
+    choices: [
+      { name: "Yes", value: true },
+      { name: "No", value: false },
+    ],
+  });
+
+  if (!proceed) {
+    process.exit(1);
+  }
+
+  // configure newly selected module
+  const newModules = modulesToDeploy.filter((module) => {
+    return !previousModules.includes(templateInverseLookup[module]);
+  });
+
+  await runModuleConfiguration(newModules);
+
+  // add previously deployed to list of modules to deploy
+  for (const previous in previousModules) {
+    if (
+      configurationTemplates[previous] &&
+      !modulesToDeploy.includes(configurationTemplates[previous].name)
+    ) {
+      modulesToDeploy.push(configurationTemplates[previous].name);
+    }
+  }
+
+  // prompt user with deployment verification
+  if (!(await verifyDeployment(modulesToDeploy))) {
+    process.exit(1);
+  }
+
+  // do the deployment
+  await runDeployment(true, modulesToDeploy);
 };
 
 /**
@@ -177,8 +251,8 @@ const onDeploy = async () => {
     ),
   );
 
-  const projectsToDeploy = await checkbox({
-    message: `Select ${chalk.yellow("one or more")} projects to deploy:`,
+  const modulesToDeploy = await checkbox({
+    message: `Select ${chalk.yellow("one or more")} modules to deploy:`,
     required: true,
     choices: [
       {
@@ -212,56 +286,7 @@ const onDeploy = async () => {
     });
 
     if (updateExisting) {
-      // load previous config
-      appConfig = JSON.parse(
-        fs.readFileSync(
-          new URL(
-            path.resolve(__dirname, `../../infra/src/config/infra.config.json`),
-            import.meta.url,
-          ),
-        ),
-      );
-
-      // get list of previously deployed
-      const previousProjects = Object.entries(appConfig.stacks)
-        .filter((value) => value[1].deployed)
-        .map((value) => {
-          return value[0];
-        });
-
-      console.log("Previously Deployed: ", JSON.stringify(previousProjects));
-
-      // configure newly selected project
-      // TODO: create a data structure to better handle project names
-      // TODO: switch from 'project' to 'module'
-      const newProjects = projectsToDeploy.filter((project) => {
-        return !previousProjects.includes(
-          Object.values(configurationTemplates).find((template) => {
-            return template.name.includes(project);
-          }).name,
-        );
-      });
-
-      console.log("Configuring New: ", JSON.stringify(newProjects));
-      await runProjectConfiguration(newProjects);
-
-      // add previously deployed to list of projects to deploy
-      for (const previous in previousProjects) {
-        if (
-          configurationTemplates[previous] &&
-          !projectsToDeploy.includes(configurationTemplates[previous].name)
-        ) {
-          projectsToDeploy.push(configurationTemplates[previous].name);
-        }
-      }
-
-      // prompt user with deployment verification
-      if (!(await verifyDeployment(projectsToDeploy))) {
-        process.exit(1);
-      }
-
-      // do the deployment
-      await runDeployment(true, projectsToDeploy);
+      await onUpdate(modulesToDeploy);
       return 0;
     }
   }
@@ -294,14 +319,14 @@ const onDeploy = async () => {
 
   // set config defaults for all stacks
   for (const [key, value] of Object.entries(configurationTemplates)) {
-    if (projectsToDeploy.includes(key)) continue;
+    if (modulesToDeploy.includes(key)) continue;
     appConfig.stacks[key] = await value["default"]();
   }
 
   appConfig.stacks.vpc = getVpcDefault();
 
   // TODO: turn goldenAMI prompt into a function
-  if (projectsToDeploy.includes("workstation-fleet")) {
+  if (modulesToDeploy.includes("workstation-fleet")) {
     const goldenAMIDeployed = await select({
       message: `You have selected Omniverse Workstation Fleet for deployment. Have you already deployed the Workstation AMI?`,
       choices: [
@@ -332,22 +357,22 @@ const onDeploy = async () => {
   // always required
   appConfig.stacks.vpc = await configureVpc();
 
-  // run config requirements for each project
-  await runProjectConfiguration(projectsToDeploy);
+  // run config requirements for each module
+  await runModuleConfiguration(modulesToDeploy);
 
   // write new config file to infra.config.json
   writeConfigFile(appConfig);
 
   // prompt user with deployment verification
-  if (!(await verifyDeployment(projectsToDeploy))) {
+  if (!(await verifyDeployment(modulesToDeploy))) {
     process.exit(1);
   }
 
   // do the deployment
-  await runDeployment(cdkConfigured, projectsToDeploy);
+  await runDeployment(cdkConfigured, modulesToDeploy);
 };
 
-// run deployment steps, including project configuration
+// run deployment steps, including module configuration
 if ("deploy" in cli.flags) {
   await onDeploy();
 }
