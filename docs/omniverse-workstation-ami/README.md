@@ -1,7 +1,7 @@
 # NVIDIA Omniverse base Windows Workstation installation and setup
 
-A guide to create a golden Amazon Machine Image (AMI). Last updated on
-03/2024.
+A guide to create a golden Amazon Machine Image (AMI) for an NVIDIA
+Omniverse Workstation. Last updated on 04/2024.
 
 ## Overview
 
@@ -12,30 +12,19 @@ deployments.
 
 ## Contents
 
-- [Step 1 - Deploy VPC CloudFormation (CFN)
-  template](#step-1-configure-the-aws-cdk-project-install-dependencies-and-deploy-the-stack)
+- [Prerequisites](#prerequisites)
+- [Architecture](#architecture)
+- [Instructions](#instructions)
+  - [Step 1 - Configure and Deploy the AWS CDK Module](#step-1-configure-and-deploy-the-aws-cdk-module)
+  - [Step 2 - Retrieve Administrator password for the EC2 instance](#step-2-retrieve-administrator-password-for-the-ec2-instance)
+  - [Step 3 - (recommended) Apply patches with Systems Manager (SSM)](#step-3-recommended-apply-patches-with-systems-manager-ssm)
+  - [Step 4 - Connect to the instance using DCV Viewer](#step-4-connect-to-the-instance-using-dcv-viewer)
+  - [Step 5 - (recommended) Enable 4K streaming resolution](#step-5-recommended-enable-4k-streaming-resolution)
+  - [Step 6 - (recommended) Optimized Omniverse Launcher](#step-6-recommended-optimized-omniverse-launcher)
+  - [Step 7 - (recommended) Optimize the NVIDIA GPU with the NVIDIA Control Panel](#step-7-recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
+  - [Step 8 - Install USD Composer (formerly Create)](#step-8-install-usd-composer-formerly-create)
+  - [Step 9 – Create an Amazon Machine Image from the EC2 Instance](#step-9-–-create-an-amazon-machine-image-from-the-ec2-instance)
 
-- [Step 2 - Retrieve Administrator password for the EC2
-  instance](#step-2-retrieve-administrator-password-for-the-ec2-instance)
-
-- [Step 3 - (recommended) Apply patches with Systems Manager
-  (SSM)](#step-3-recommended-apply-patches-with-systems-manager-ssm)
-
-- [Step 4 - Connect to the instance using DCV
-  Viewer](#step-4-connect-to-the-instance-using-dcv-viewer)
-
-- [Step 5 - (recommended) Enable 4K streaming
-  resolution](#step-5-recommended-enable-4k-streaming-resolution)
-
-- [Step 6 - (recommended) Optimized Omniverse
-  Launcher](#step-6-recommended-optimized-omniverse-launcher)
-
-- [Step 7 - (recommended) Optimize the NVIDIA GPU with the NVIDIA
-  Control
-  Panel](#step-7-recommended-optimize-the-nvidia-gpu-with-the-nvidia-control-panel)
-
-- [Step 8 - Install USD Composer (formerly
-  Create)](#step-8-install-usd-composer-formerly-create)
 
 ## Omniverse Workstation Components
 
@@ -52,68 +41,44 @@ Omniverse Workstation.
 
 5.  NVIDIA Omniverse USD Composer
 
+## Prerequisites
+
+- NICE DCV Client: <https://download.nice-dcv.com/latest.html>
+
 ## Architecture
-<img src="./media/image1.jpeg" style="width:7.08784in;height:6.98573in" />
+
+<img src="./media/image1.jpeg" />
 
 ## Instructions
+### Step 1 – Configure and Deploy the AWS CDK Module
 
-### Step 1 – Configure the AWS CDK Project, install dependencies, and deploy the stack
+- In your CLI get started with the deployment tool by running `npx
+  omniverse-aws --deploy`
 
-- **Configure the AWS CDK Project**
+- Choose NVIDIA Omniverse Workstation AMI. This will configure the VPC
+  and deploy the base instance for creating an Omniverse golden AMI.
 
-  - In \`./config\` create a file named \`app.config.json\`. This file
-    is used to configure the Stacks on deployment. See the below
-    template for the expected schema:
-```
-{
-  "name": "omni",
-  "env": {
-    "account": "ACCOUNT_ID",
-    "region": "AWS_REGION"
-  },
-  "availabilityZones": 2,
-  "removalPolicy": "destroy",
-  "autoDelete": true,
-  "cdkNag": false,
-  "stacks": {
-    "vpc": {
-      "name": "vpc",
-      "allowedRanges": ["CIDR_RANGE"]
-    },
-    "workstation": {
-      "name": "workstation",
-      "jumpboxInstanceType": "t4g.small",
-      "workstationInstanceType": "g5.2xlarge",
-      "workstationQuantity": 1
-    }
-  }
-}
-```
-- **Installing Dependencies and Bootstrapping AWS**
+- If this is your first deployment, choose the option to create a new
+  config file
 
-  - Install the dependency packages for the project. From your CLI run:
-    npm install
+- Provide your 12-digit AWS account ID
 
-  - Build the shared dependency package. From your CLI run: nx run
-    omniverse-shared:build
+- Provide the AWS Region you want to deploy to (ex: us-east-1,
+  us-west-2)
 
-  - To prepare your AWS account for the CDK application start by
-    bootstrapping: cdk bootstrap \<ACCOUNT_ID\>/\<AWS_REGION\>
+- If your account has not been bootstrapped for AWS CDK select ‘No’ to
+  bootstrap
 
-  - Once that is complete, synthesize the CDK application to verify the
-    configuration is correct: cdk synth
+- Input the CIDR ranges that will be allowed to access your deployed
+  solution. For individual IP address, add the /32 mask (ex:
+  169.254.169.254/32).
 
-- **Deploy the Stack**
+- Select the EC2 instance type for the Omniverse Workstation
 
-  - Now, deploy the stacks to create the VPC, networking resources,
-    Jumpbox, and Omniverse Workstation: cdk deploy --all
+- Verify the configured package and select ‘Yes’ to deploy
 
-  - If you changed the names of the stacks or application in the
-    app.config.json this step will be in the form of: \`cdk deploy
-    \<config.name\>-\<config.stacks.infra.name\>\`
-
-    - Note: It can take 15-20 minutes for all resources to be
-      provisioned and in the running state.
+  - Note: It can take 5-10 minutes for all resources to be provisioned
+    and in the running state.
 
 ### Step 2 - Retrieve Administrator password for the EC2 instance
 
@@ -281,3 +246,15 @@ Omniverse Workstation.
 
 - This concludes the setup process. Enjoy building with NVIDIA
   Omniverse!
+
+### Step 9 – Create an Amazon Machine Image from the EC2 Instance
+
+- From the EC2 console, select your base instance, select Actions \>
+  Image and Templates \> Create Image
+
+- Name your Amazon Machine Image (example: omni-workstation-golden-ami)
+  and click Create Image
+
+- Creating the AMI from the Instance will take 30-45 minutes. Once
+  complete note the AMI ID for use in creating your Omniverse
+  Workstation Fleet.
