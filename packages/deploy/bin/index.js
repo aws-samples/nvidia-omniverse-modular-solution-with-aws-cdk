@@ -266,6 +266,8 @@ const onUpdate = async (modules) => {
   }
 
   await runModuleConfiguration(newModules);
+  // update app config with new modules
+  writeConfigFile(appConfig);
 
   // add previously deployed to list of modules to deploy
   for (const previous in previousModules) {
