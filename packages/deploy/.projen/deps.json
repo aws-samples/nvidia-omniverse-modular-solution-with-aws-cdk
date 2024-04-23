@@ -11,6 +11,18 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-ec2",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-s3",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-ssm",
+      "type": "runtime"
+    },
+    {
       "name": "@inquirer/checkbox",
       "type": "runtime"
     },

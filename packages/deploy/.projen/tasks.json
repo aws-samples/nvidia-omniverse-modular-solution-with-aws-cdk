@@ -83,13 +83,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@inquirer/checkbox,@inquirer/input,@inquirer/select,chalk,file-dialog,inquirer,inquirer-file-tree-selection-prompt,meow,node-file-dialog"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-sdk/client-ec2,@aws-sdk/client-s3,@aws-sdk/client-ssm,@inquirer/checkbox,@inquirer/input,@inquirer/select,chalk,file-dialog,inquirer,inquirer-file-tree-selection-prompt,meow,node-file-dialog"
         },
         {
           "exec": "npm install"
         },
         {
-          "exec": "npm update constructs projen @inquirer/checkbox @inquirer/input @inquirer/select chalk file-dialog inquirer inquirer-file-tree-selection-prompt meow node-file-dialog"
+          "exec": "npm update constructs projen @aws-sdk/client-ec2 @aws-sdk/client-s3 @aws-sdk/client-ssm @inquirer/checkbox @inquirer/input @inquirer/select chalk file-dialog inquirer inquirer-file-tree-selection-prompt meow node-file-dialog"
         },
         {
           "exec": "npx projen"

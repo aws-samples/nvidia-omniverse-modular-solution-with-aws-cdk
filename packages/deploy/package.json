@@ -24,6 +24,9 @@
     "projen": "^0.79.24"
   },
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.557.0",
+    "@aws-sdk/client-s3": "^3.556.0",
+    "@aws-sdk/client-ssm": "^3.556.0",
     "@inquirer/checkbox": "^2.1.0",
     "@inquirer/input": "^2.0.0",
     "@inquirer/select": "^2.0.0",

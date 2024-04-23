@@ -67,7 +67,10 @@ const deploy = new NodeProject({
     "inquirer-file-tree-selection-prompt",
     "chalk",
     "file-dialog",
-    "node-file-dialog"
+    "node-file-dialog",
+    "@aws-sdk/client-s3",
+    "@aws-sdk/client-ssm",
+    "@aws-sdk/client-ec2"
   ],
   ...params,
 });
