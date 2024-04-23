@@ -71,15 +71,18 @@ export class NucleusSecurityGroups extends Construct {
         const nucleusRules = [
             { port: 80, desc: 'nucleus web' },
             { port: 8080, desc: 'nucleus web3' },
+            { port: 8000, desc: 'auth api port' },
             { port: 3009, desc: 'nucleus api' },
             { port: 3010, desc: 'nucleus metrics' },
             { port: 3019, desc: 'nucleus api 2' },
-            { port: 3020, desc: 'nucleus tagging3' },
+            { port: 3020, desc: 'nucleus tagging' },
             { port: 3030, desc: 'nucleus lft' },
             { port: 3100, desc: 'nucleus auth' },
+            { port: 3106, desc: 'api authenticated port' },
             { port: 3180, desc: 'nucleus login' },
             { port: 3333, desc: 'nucleus discovery' },
-            { port: 3400, desc: 'nucleus search3' },
+            { port: 3400, desc: 'nucleus search' },
+            { port: 3503, desc: 'nucleus ngsearch service' },
         ];
 
         subnets.reverseProxy?.forEach(subnet => {

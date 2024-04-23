@@ -6,7 +6,7 @@ import { NagSuppressions } from 'cdk-nag';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as path from 'path';
-
+import { OMNI_NUCLEUS_ARTIFACTS_BUCKET_NAME, OMNI_NUCLEUS_LOGS_BUCKET_NAME } from '../../consts';
 export interface StorageResourcesProps {
     stackName: string;
     removalPolicy: RemovalPolicy,
@@ -21,14 +21,14 @@ export class StorageResources extends Construct {
         super(scope, id);
 
         this.logsBucket = new s3.Bucket(this, 'LogsBucket', {
-            bucketName: `${props.stackName.toLowerCase()}-${Stack.of(this).region}-omniverse-nucleus-logs-bucket`,
+            bucketName: OMNI_NUCLEUS_LOGS_BUCKET_NAME,
             removalPolicy: RemovalPolicy.RETAIN,
             enforceSSL: true,
             accessControl: s3.BucketAccessControl.LOG_DELIVERY_WRITE,
         });
 
         const sourceBucket = new s3.Bucket(this, 'ArtifactsBucket', {
-            bucketName: `${props.stackName.toLowerCase()}-${Stack.of(this).region}-omniverse-nucleus-artifacts-bucket`,
+            bucketName: OMNI_NUCLEUS_ARTIFACTS_BUCKET_NAME,
             autoDeleteObjects: props.autoDelete,
             removalPolicy: props.removalPolicy,
             enforceSSL: true,
