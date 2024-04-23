@@ -37,7 +37,7 @@ export class WorkstationFleetStack extends Stack {
       subnets: props.subnets.public,
       securityGroup: props.securityGroups.jumpbox as ec2.SecurityGroup,
       instanceType: props.jumpboxInstanceType,
-      instanceQuantity: props.workstationQuantity,
+      instanceQuantity: props.availabilityZones,
       removalPolicy: props.removalPolicy
     });
 
@@ -51,7 +51,7 @@ export class WorkstationFleetStack extends Stack {
       securityGroup: props.securityGroups.workstation as ec2.SecurityGroup,
       amiId: props.workstationAmiId,
       instanceType: props.workstationInstanceType,
-      instanceQuantity: props.availabilityZones,
+      instanceQuantity: props.workstationQuantity,
       removalPolicy: props.removalPolicy
     });
 

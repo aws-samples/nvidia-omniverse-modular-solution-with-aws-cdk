@@ -32,7 +32,6 @@ export class StackConfigurator {
           this.workstationFleet = true;
           break;
         case 'nucleus':
-        default:
           this.nucleus = true;
           break;
       }
