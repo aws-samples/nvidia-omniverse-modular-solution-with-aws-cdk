@@ -9,7 +9,8 @@ const project = new monorepo.MonorepoTsProject({
   packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
   license: "MIT-0",
-  copyrightOwner: "Amazon.com, Inc."
+  copyrightOwner: "Amazon.com, Inc.",
+  majorVersion: 1,
 });
 
 const params = {

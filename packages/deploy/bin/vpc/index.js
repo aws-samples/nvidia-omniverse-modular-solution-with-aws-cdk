@@ -1,6 +1,4 @@
 import input from "@inquirer/input";
-// import select from "@inquirer/select";
-
 import fs from "fs";
 
 const template = JSON.parse(

@@ -5,15 +5,6 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// export const configFileExists = (project) => {
-//   const configFile = path.resolve(
-//     __dirname,
-//     `../../${project}/src/config/app.config.json`,
-//   );
-
-//   return fs.existsSync(configFile);
-// };
-
 export const configFileExists = () => {
   const configFile = path.resolve(
     __dirname,
