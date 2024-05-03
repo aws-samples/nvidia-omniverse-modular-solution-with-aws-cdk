@@ -1,4 +1,3 @@
-
 def start_nucleus_config() -> list[str]:
     return '''
         cd /opt/ove/base_stack || exit 1

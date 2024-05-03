@@ -1,5 +1,3 @@
-
-
 import { RemovalPolicy, CfnOutput, Stack } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { NagSuppressions } from 'cdk-nag';
@@ -7,6 +5,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as path from 'path';
 import { OMNI_NUCLEUS_ARTIFACTS_BUCKET_NAME, OMNI_NUCLEUS_LOGS_BUCKET_NAME } from '../../consts';
+
 export interface StorageResourcesProps {
     stackName: string;
     removalPolicy: RemovalPolicy,

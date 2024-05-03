@@ -1,5 +1,3 @@
-
-
 import { Tags } from 'aws-cdk-lib';
 import { IVpc, Peer, Port, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';

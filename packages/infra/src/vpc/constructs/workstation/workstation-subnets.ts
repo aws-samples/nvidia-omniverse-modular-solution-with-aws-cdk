@@ -1,5 +1,3 @@
-
-
 import { Construct } from 'constructs';
 import { SubnetConfiguration, SubnetType } from 'aws-cdk-lib/aws-ec2';
 
