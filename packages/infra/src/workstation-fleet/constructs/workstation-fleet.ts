@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 import { Construct } from 'constructs';
 import { Stack, RemovalPolicy, CfnOutput, Tags } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';

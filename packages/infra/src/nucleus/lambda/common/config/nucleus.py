@@ -1,3 +1,6 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
 def start_nucleus_config() -> list[str]:
     return '''
         cd /opt/ove/base_stack || exit 1

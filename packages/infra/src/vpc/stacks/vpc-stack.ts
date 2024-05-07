@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 import { CfnOutput, Stack, Tags } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';

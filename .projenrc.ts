@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 import { javascript } from "projen";
 import { monorepo } from "@aws/pdk";
 import { AwsCdkTypeScriptApp } from "projen/lib/awscdk";
@@ -9,7 +12,7 @@ const project = new monorepo.MonorepoTsProject({
   packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
   license: "MIT-0",
-  copyrightOwner: "Amazon.com, Inc.",
+  copyrightOwner: "Amazon.com, Inc. or its affiliates. All Rights Reserved.",
   majorVersion: 1,
 });
 

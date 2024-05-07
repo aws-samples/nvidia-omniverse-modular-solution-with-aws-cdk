@@ -1,3 +1,5 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
 
 export const OMNI_JUMPBOX_KP_NAME_PARAM_NAME = 'omni-jumpbox-keypair';
 export const OMNI_JUMPBOX_KP_ID_PARAM_NAME = 'omni-jumpbox-keypair-id';

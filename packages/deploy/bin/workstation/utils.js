@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 export const workstationQuantityPrompt = {
   message: "How many workstations do you wish to deploy?",
   default: 1,

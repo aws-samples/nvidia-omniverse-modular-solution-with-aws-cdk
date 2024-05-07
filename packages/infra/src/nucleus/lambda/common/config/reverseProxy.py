@@ -1,3 +1,6 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
 def get_config(artifacts_bucket_name: str, nucleus_address: str, full_domain: str) -> list[str]:
     return f'''
         echo "------------------------ REVERSE PROXY CONFIG ------------------------"

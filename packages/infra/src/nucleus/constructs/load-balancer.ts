@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 import { Construct } from 'constructs';
 import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { IConnectable, ISubnet, Port, SecurityGroup, Vpc } from 'aws-cdk-lib/aws-ec2';

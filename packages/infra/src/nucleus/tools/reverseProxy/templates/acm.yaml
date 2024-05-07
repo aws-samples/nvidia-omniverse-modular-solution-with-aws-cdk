@@ -1,3 +1,6 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
 # ACM for Nitro Enclaves config.
 #
 # This is an example of setting up ACM, with Nitro Enclaves and nginx.

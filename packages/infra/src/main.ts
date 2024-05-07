@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+
 import { App, Aspects, RemovalPolicy, Tags } from "aws-cdk-lib";
 import { AwsSolutionsChecks } from "cdk-nag";
 import { VpcStack } from "./vpc/stacks/vpc-stack";

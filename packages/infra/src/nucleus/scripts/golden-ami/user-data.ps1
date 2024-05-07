@@ -1,3 +1,6 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
 <powershell>
 # download and install NVIDIA GRID drivers
 Invoke-Expression -Command "cd C:\Users\Administrator\Downloads\"
