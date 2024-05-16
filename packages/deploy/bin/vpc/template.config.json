@@ -1,0 +1,6 @@
+{
+  "name": "Vpc",
+  "deployed": false,
+  "allowedRanges": [],
+  "cidrRange": "192.0.0.0/16"
+}

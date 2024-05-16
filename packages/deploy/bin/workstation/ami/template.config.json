@@ -1,0 +1,6 @@
+{
+  "name": "Ami",
+  "deployed": false,
+  "jumpboxInstanceType": "t4g.small",
+  "workstationInstanceType": "g5.2xlarge"
+}

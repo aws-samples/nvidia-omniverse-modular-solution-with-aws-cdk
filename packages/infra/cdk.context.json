@@ -1,0 +1,21 @@
+{
+  "availability-zones:account=070483837758:region=us-west-2": [
+    "us-west-2a",
+    "us-west-2b",
+    "us-west-2c",
+    "us-west-2d"
+  ],
+  "hosted-zone:account=070483837758:domainName=kccartle.people.aws.dev:privateZone=false:region=us-west-2": {
+    "Id": "/hostedzone/Z1019881210XGXZY5MXZQ",
+    "Name": "kccartle.people.aws.dev."
+  },
+  "ami:account=070483837758:filters.image-id.0=ami-03a6a05a5e31f5696:filters.image-type.0=machine:filters.name.0=omniverse-golden-workstation-ami:filters.state.0=available:region=us-west-2": "ami-03a6a05a5e31f5696",
+  "ami:account=070483837758:filters.image-type.0=machine:filters.name.0=Windows_Server-2022-English-Full-Base-2024.03.13:filters.platform.0=windows:filters.state.0=available:owners.0=801119661308:region=us-west-2": "ami-03ea14ccbeab7b2d5",
+  "ami:account=070483837758:filters.image-id.0=ami-03e5681170bd4b51d:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-03e5681170bd4b51d",
+  "ami:account=070483837758:filters.image-id.0=ami-03cec12bd74ca5169:filters.image-type.0=machine:filters.name.0=omniverse-workstation-golden-ami:filters.state.0=available:region=us-west-2": "ami-03cec12bd74ca5169",
+  "ami:account=070483837758:filters.image-id.0=ami-01446b24d7d116814:filters.image-type.0=machine:filters.name.0=OmniverseWorkstationGoldenAmi:filters.state.0=available:region=us-west-2": "ami-01446b24d7d116814",
+  "ami:account=070483837758:filters.image-id.0=ami-0ea17a7b4d995d9b0:filters.image-type.0=machine:filters.name.0=omniverse-workstation-base-ami:filters.state.0=available:region=us-west-2": "ami-0ea17a7b4d995d9b0",
+  "ami:account=070483837758:filters.image-id.0=ami-009255bfb78a77aa6:filters.image-type.0=machine:filters.name.0=omniverse-workstation-base-ami:filters.state.0=available:region=us-west-2": "ami-009255bfb78a77aa6",
+  "ami:account=070483837758:filters.image-id.0=ami-017729d3d198e0a97:filters.image-type.0=machine:filters.name.0=omniverse-workstation-base-ami-test:filters.state.0=available:region=us-west-2": "ami-017729d3d198e0a97",
+  "ami:account=070483837758:filters.image-id.0=ami-009255bfb78a77aa6:filters.image-type.0=machine:filters.name.0=*:filters.state.0=available:owners.0=070483837758:region=us-west-2": "ami-009255bfb78a77aa6"
+}
