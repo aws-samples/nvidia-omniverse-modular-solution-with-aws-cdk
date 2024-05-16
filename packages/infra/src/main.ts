@@ -112,7 +112,6 @@ if (stackConfigurator.WorkstationFleet) {
     vpc: vpc,
     subnets: subnets,
     securityGroups: securityGroups,
-    availabilityZones: 2,
     removalPolicy: config.removalPolicy as RemovalPolicy,
     autoDelete: config.autoDelete,
     ...config.stacks.fleet,
