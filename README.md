@@ -1,6 +1,6 @@
 # NVIDIA Omniverse Modular Solution with AWS CDK
 
-## Overview 
+## Overview
 
 This project is a modular AWS Cloud Development Kit (AWS CDK) solution that provides a starting place for NVIDIA Omniverse Workstations and/or Omniverse Enterprise Nucleus. Follow the below instructions and module guides to learn how to configure and deploy an NVIDIA Omniverse solution that best fits your use case. 
 
@@ -22,7 +22,7 @@ Omniverse engages everyone involved in the lifecycle of 3D data with access to h
 
 ## Architecture
 
-<img src="./docs/main/media/image1.jpg"/>
+![full-solution-architecture-diagram](./docs/main/media/image1.jpg)
 
 ## Prerequisites
 
