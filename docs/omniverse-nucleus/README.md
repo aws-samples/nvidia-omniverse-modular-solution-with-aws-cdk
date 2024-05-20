@@ -1,7 +1,7 @@
-# NVIDIA Omniverse Nucleus on AWS deployment
+# NVIDIA Omniverse Enterprise Nucleus on AWS deployment
 
 A guide to deploy NVIDIA Omniverse Enterprise Nucleus on Amazon EC2.
-Last updated on 04/2024.
+Last updated on 05/2024.
 
 ## Overview
 This guide includes steps to deploy a NVIDIA Omniverse Enterprise

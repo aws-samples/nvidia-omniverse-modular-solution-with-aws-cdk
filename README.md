@@ -53,7 +53,7 @@ Please reference the individual module guides for more detailed instructions on 
 
 1. [Omniverse Workstation AMI](./docs/omniverse-workstation-ami/README.md)
 2. [Omniverse Workstation Fleet](./docs/omniverse-workstation-fleet/README.md)
-3. [Omniverse Nucleus](./docs/omniverse-nucleus/README.md)
+3. [Omniverse Enterprise Nucleus](./docs/omniverse-nucleus/README.md)
 
 ## Clean Up
 
