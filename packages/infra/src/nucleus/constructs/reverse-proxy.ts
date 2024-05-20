@@ -189,7 +189,7 @@ export class ReverseProxyResources extends Construct {
 		});
 
 		const reverseProxyConfig = new CustomResource(this, 'ReverseProxyCustomResource', {
-			lambdaName: `${props.stackName}-custom-resource-reverse-proxy-config`,
+			lambdaName: `${props.stackName}CustomResourceReverseProxyConfig`,
 			lambdaCodePath: path.join(__dirname, '..', 'lambda', 'custom-resources', 'reverse-proxy-config'),
 			lambdaPolicyDocument: reverseProxyConfigLambdaPolicy,
 			lambdaLayers: props.lambdaLayers,

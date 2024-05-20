@@ -41,7 +41,7 @@ export class CustomResource extends Construct {
 			},
 		});
 
-		const lambdaName = `${props.lambdaName}CR`;
+		const lambdaName = `${props.lambdaName}`;
 		const lambdaLogGroup = `/aws/lambda/${lambdaName}`;
 
 		const logGroup = new logs.LogGroup(this, 'lambdaFnLogGroup', {

@@ -93,13 +93,12 @@ containers up.
 
 If there are issues with either of these, it is likely there was an
 issue with the Lambda and/or SSM run commands that configure the
-instances. Browse to the Lambda Console
-(<https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions>)
+instances. Navigate to the Lambda Console in your web browser
 and search for the respective Lambda Functions:
 
-- ReverseProxyConfig-CustomResource
+- OmniNucleusCustomResourceReverseProxyConfig
 
-- NucleusServerConfig-CustomResource
+- OmniNucleusCustomResourceNucleusConfig
 
 Review the CloudWatch Logs for these functions.​
 
@@ -118,7 +117,7 @@ systemctl restart nginx.service
 ### Additional Nucleus server notes
 
 Review NVIDIA's Documentation -
-<https://docs.omniverse.nvidia.com/prod_nucleus/prod_nucleus/enterprise/installation/quick_start_tips.html>
+<https://docs.omniverse.nvidia.com/nucleus/latest/enterprise/installation/install-ove-nucleus.html>
 
 Default base stack and config location:
 
