@@ -29,7 +29,7 @@ Base Windows Workstation guide.
 - In your CLI get started with the deployment tool by running `npx omniverse-aws --deploy`
 - Choose NVIDIA Omniverse Workstation Fleet. This will configure the VPC
   and deploy the instances for creating an Omniverse workstation fleet
-  based on the golden AMI.
+  using the golden AMI.
 - If you previously deployed the Workstation AMI stack, select to update
   the config file. If not, please deploy the Workstation AMI stack
   following the Workstation AMI guide.
@@ -44,7 +44,7 @@ Base Windows Workstation guide.
 ### Step 2 - Connect to the instance using DCV Viewer
 - The EC2 Key Pair used to connect to the Jumpbox should be the same Key
   Pair used to access the Jumpbox instance from the Workstation AMI
-  guide.
+  guide. Please refer to Step 4 in the Workstation AMI guide for more information. 
 - To create a new version of this Key Pair, copy the **EC2 Key Pair** to
   a new local file on your device.
   - Create a \<key pair PEM file\>.pem file on your local device
@@ -53,10 +53,8 @@ Base Windows Workstation guide.
   - Paste the EC2 Key Pair contents into the file
   - Set the files permission to read-only, for example chmod 400 \<key
     pair PEM file\>.pem
-- Open **SSH tunnel** with the EC2 private and public IPs obtained from
-  the EC2 Console
-  - ssh -i ./\<key pair PEM file\> -L 8888**:\<workstation private
-    IP\>**:8443 ec2-user@**\<jumpbox public IP\>**
+- Open **SSH tunnel** with the new Jumpbox EC2 instances that were created. Obtain the private and public IPs for the instances from the EC2 Console.
+  - ssh -i ./\<key pair PEM file\> -L 8888:\<workstation private IP\>**:8443 ec2-user@**\<jumpbox public IP\>
 - Launch **DCV Viewer** (or download the client from [here](https://download.nice-dcv.com/))
 - Connect to **localhost:8888**
-- Supply the user credentials setup in the AMI Workstation guide
+- Supply the user credentials found previously in the Workstation AMI guide under Step 2. 

@@ -85,14 +85,15 @@ Omniverse Workstation.
 - Navigate to the **Systems Manager Console** \> **Application
   Management** \> **Parameter Store**
 
-- Select the **EC2 Key Pair** that was created by the CFN template
+- In a new tab, navigate to the **EC2 Console** \> **Key Pairs**. Identify the key pair for the Omniverse workstation. Take note of it's ID
+
+- Back in Parameter Store select the **EC2 Key Pair** that correlates to the ID of the Omniverse workstation. 
 
 - Click **Show decrypted** value and copy the data
 
-- Navigate to the **EC2 Console** \> **Instances, select the instance
-  and click Actions** \> **Security** \> **Get Windows password**
+- Navigate to the **EC2 Console** \> **Instances**, select the workspace instance and click **Actions** \> **Security** \> **Get Windows password**
 
-- Paste the EC2 Key Pair and click **Decrypt password**
+- Paste the workstation EC2 Key Pair under **Private key contents** and click **Decrypt password**
 
 - Note the Username and Password values
 
@@ -117,7 +118,9 @@ Omniverse Workstation.
 
 ### Step 4 - Connect to the instance using DCV Viewer
 
-- Copy the **EC2 Key Pair** to a new local file on your device
+- Navigate back to the **Key Pairs** page under the **EC2 console**. Take note of the ID for the Omniverse jump box
+
+- Under Parameter Store, identify the key pair correlated to the jump box ID. Copy and paste the decrypted value found within to a new local file on your device
 
   - Create a \<key pair PEM file\>.pem file on your local device
 
@@ -132,15 +135,17 @@ Omniverse Workstation.
 - Open **SSH tunnel** with the EC2 private and public IPs obtained from
   the EC2 Console
 
-  - ssh -i ./\<key pair PEM file\> -L 8888**:\<workstation private
-    IP\>**:8443 ec2-user@**\<jumpbox public IP\>**
+  - ssh -i ./\<key pair PEM file\> -L 8888:\<workstation private
+    IP\>**:8443 ec2-user@**\<jumpbox public IP\>
+
+  - Note: If you are having troubles establishing a SSH tunnel, check the Jumpbox instance's security group. Make sure your IP address is allowed in the security group by modifying **Inbound rules**. For more information click [here](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-security-group-rules.html)
 
 - Launch **DCV Viewer** (or download the client from
   [here](https://download.nice-dcv.com/))
 
 - Connect to **localhost:8888**
 
-- Supply the user credentials obtained from a step 2
+- Supply the user credentials obtained from step 2
 
 ### Step 5 - (recommended) Enable 4K streaming resolution
 
