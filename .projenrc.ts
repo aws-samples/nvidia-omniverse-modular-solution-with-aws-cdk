@@ -1,14 +1,14 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-import { javascript } from "projen";
 import { monorepo } from "@aws/pdk";
+import { javascript } from "projen";
 import { AwsCdkTypeScriptApp } from "projen/lib/awscdk";
 import { NodeProject } from "projen/lib/javascript";
 
 const project = new monorepo.MonorepoTsProject({
   devDeps: ["@aws/pdk"],
-  name: "rebuild-nvidia-omniverse-on-aws",
+  name: "nvidia-omniverse-on-aws",
   packageManager: javascript.NodePackageManager.NPM,
   projenrcTs: true,
   license: "MIT-0",
@@ -23,7 +23,7 @@ const params = {
     "https://gitlab.aws.dev/stac-nvidia-omniverse-council/nvidia-omniverse-on-aws",
   defaultReleaseBranch: "main",
   parent: project,
-  cdkVersion: "2.130.0",
+  cdkVersion: "2.187.0",
   entrypoint: "dist/index.js",
   entrypointTypes: "dist/index.d.ts",
   eslint: true,
@@ -58,9 +58,10 @@ const deploy = new NodeProject({
   name: "omniverse-deploy",
   outdir: "packages/deploy",
   packageName: "omniverse-aws",
-  description: "Command line tool for deploying NVIDIA Omniverse resources on AWS",
+  description:
+    "Command line tool for deploying NVIDIA Omniverse resources on AWS",
   bin: {
-    "omniverse-aws": "bin/index.js"
+    "omniverse-aws": "bin/index.js",
   },
   deps: [
     "meow",
@@ -74,7 +75,7 @@ const deploy = new NodeProject({
     "node-file-dialog",
     "@aws-sdk/client-s3",
     "@aws-sdk/client-ssm",
-    "@aws-sdk/client-ec2"
+    "@aws-sdk/client-ec2",
   ],
   ...params,
 });
@@ -90,11 +91,10 @@ new AwsCdkTypeScriptApp({
     "aws-cdk-lib",
     "constructs",
     "cdk-nag",
-    "@aws-cdk/aws-lambda-python-alpha"
+    "@aws-cdk/aws-lambda-python-alpha",
   ],
   gitignore: ["/config/*", "*.config.json", "*.tar.gz"],
   ...params,
 });
-
 
 project.synth();
